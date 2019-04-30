@@ -1,0 +1,14 @@
+[Unit]
+Description=Snowzonia
+Requires=dbus.socket
+
+[Service]
+Type=idle
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/python -u /home/pi/snowzonia/snowzonia.py
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+
