@@ -9,12 +9,20 @@ Please note, that the project is still lacking most of the documentation, so be 
 ## Getting Started
 coming soon
 ### Prerequisites
-coming soon
+You will need to get [Snowboy](https://github.com/Kitt-AI/snowboy#snowboy-hotword-detection) and an USB-microphone.
+Follow the intructions (at snowboy) to get everything working, but you won't need to train any models yet.
+
+If you only want a voice controlled bluetooth-speaker Snowboy is pretty much all you need and you can continue with the Installing-section.
+
+If you want to listen to music (without a connected bluetooth-device) from streaming services (e.g. Spotify) you will need [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project).
+
+If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials.
+
 ### Installing
 coming soon
 
 ## Contributing
-I did this project to learn more about Python and Linux, because I was new to both. I basically wrote the whole code with the nano editor on a Raspberry Pi. There are probably many things I could have done better in many ways, so feel free to contribute to the project or lecture me on what's wrong with it. ;)
+I did this project to learn more about Python and Linux, because I was new to both. I basically wrote the whole code in the nano editor on a Raspberry Pi. There are probably many things I could have done better in many ways, so feel free to contribute to the project or lecture me on what's wrong with it. ;)
 
 ## Author
 Heiner Lohmann
