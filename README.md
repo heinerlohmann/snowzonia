@@ -13,7 +13,7 @@ Warning: Do yourself a favour and do not use Raspbian Stretch Lite with Snowzoni
 
 ### Prerequisites
 You will need to get [Snowboy](https://github.com/Kitt-AI/snowboy#snowboy-hotword-detection) and an USB-microphone.
-Follow the [intructions](http://docs.kitt.ai/snowboy/) to get everything working. You won't need to train any models for Snowzonia yet. (since you may need 14 of them, I wrote a script for that)
+Follow the [instructions](http://docs.kitt.ai/snowboy/) to get everything working. You won't need to train any models for Snowzonia yet. (since you may need 14 of them, I wrote a script for that)
 
 If you only want a voice controlled bluetooth-speaker Snowboy is pretty much all you need and you can continue with the Installing-section.
 
