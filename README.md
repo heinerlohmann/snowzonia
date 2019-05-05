@@ -21,6 +21,9 @@ If you want to listen to music (without a connected bluetooth-device) from strea
 
 If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials.
 
+When you play music with your Pi you maybe use a HifiBerry, USB-soundcard or a similar product, because the onboard sound of the Pi is not that great. (although it is sufficient for some users)
+If that is the case, you should consider using PulseAudio to handle to different external sound cards (mic and soundcard). You will need it anyways for Tizonia.
+
 ### Installing
 coming soon
 
