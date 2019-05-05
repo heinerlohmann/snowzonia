@@ -9,7 +9,7 @@ Please note, that the project is still lacking most of the documentation, so be 
 ## Getting Started
 This guid will help you to set up Snowzonia on a Linux device. It should work on most Linux machines, but I have only tested it on Raspberry Pi with Raspbian Stretch Desktop.
 
-Warning: Do yourself a favour and do not use Raspbian Stretch Lite with Snowzonia, even though you might run your device headless. Snowzonia communicates with Tizonia and BlueZ via DBUS which depends on X11 (window manager) which is not included in Raspbian Stretch Lite and also has its own dependencies. So save yourself a lot of time and just use Raspbian Stretch Desktop.
+Warning: Do yourself a favour and do not use Raspbian Stretch Lite with Snowzonia, even though you might run your device headless. Snowzonia communicates with [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project) and [BlueZ](http://www.bluez.org/) (Linux Bluetooth stack) via [DBUS](https://www.freedesktop.org/wiki/Software/dbus/) which depends on X11 (window manager) which is not included in Raspbian Stretch Lite and also has its own dependencies. So save yourself a lot of time and just use Raspbian Stretch Desktop.
 
 ### Prerequisites
 You will need to get [Snowboy](https://github.com/Kitt-AI/snowboy#snowboy-hotword-detection) and an USB-microphone.
