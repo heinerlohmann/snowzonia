@@ -38,11 +38,9 @@ Get Google Speech:
 
     pip install --upgrade google-cloud-speech
 
-When you play music with your Pi you maybe use a HifiBerry, USB-soundcard or a similar product, because the onboard sound of the Pi is not that great. (although it is sufficient for some users)
-If that is the case, you should consider using [PulseAudio](https://en.wikipedia.org/wiki/PulseAudio) to handle to different external sound cards (mic and soundcard). You will need it anyways for Tizonia.
+[PulseAudio](https://en.wikipedia.org/wiki/PulseAudio) is needed for Tizonia and A2DP, which also needs the PulseAudio bluetooth module.
 
-    apt-get install pulseaudio
-
+    apt-get install pulseaudio pulseaudio-module-bluetooth
 
 ### Installing
 Go to your home folder.
