@@ -7,7 +7,7 @@ Simple commands are interpreted on device by Snowboy, but search queries like a 
 Please note, that the project is still lacking most of the documentation, so be prepared to get frustrated or wait until I find the time to write it.
 
 ## Getting Started
-This guide will help you to set up Snowzonia on a Linux device. It should work on most Linux machines, but I have only tested it on Raspberry Pi with Raspbian Stretch Desktop.
+This guide will help you to set up Snowzonia on a Linux device. It should work on most Debian based Linux machines, but I have only tested it on Raspberry Pi with Raspbian Stretch Desktop.
 
 Warning: Do yourself a favour and do not use Raspbian Stretch Lite with Snowzonia, even though you might run your device headless. Snowzonia communicates with [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project) and [BlueZ](http://www.bluez.org/) (Linux Bluetooth stack) via [DBUS](https://www.freedesktop.org/wiki/Software/dbus/) which depends on X11 (window manager) which is not included in Raspbian Stretch Lite and also has its own dependencies. So save yourself a lot of time and just use Raspbian Stretch Desktop.
 
@@ -19,12 +19,17 @@ If you only want a voice controlled bluetooth-speaker Snowboy is pretty much all
 
 If you want to listen to music (without a connected bluetooth-device) from streaming services (e.g. Spotify) you will need [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project).
 
+    curl -kL https://goo.gl/Vu8qGR | bash
+
 If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials and the python client library.
 
     pip install --upgrade google-cloud-speech
 
 When you play music with your Pi you maybe use a HifiBerry, USB-soundcard or a similar product, because the onboard sound of the Pi is not that great. (although it is sufficient for some users)
-If that is the case, you should consider using PulseAudio to handle to different external sound cards (mic and soundcard). You will need it anyways for Tizonia.
+If that is the case, you should consider using [PulseAudio](https://en.wikipedia.org/wiki/PulseAudio) to handle to different external sound cards (mic and soundcard). You will need it anyways for Tizonia.
+
+    apt-get install pulseaudio
+
 
 ### Installing
 coming soon
