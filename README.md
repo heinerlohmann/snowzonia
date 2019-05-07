@@ -24,6 +24,11 @@ Easy install for Tizonia:
 (may take a long, long while on a raspberry)
 
     curl -kL https://goo.gl/Vu8qGR | bash
+    
+ After installing Tizonia check the location of its config file:
+ 
+    tizonia --help config
+Edit the config file and add your streaming service credentials.
 
 
 If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials and the python client library.
