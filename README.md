@@ -50,9 +50,20 @@ Clone the snowzonia repository:
 
 Assuming you have downloaded [the pre-packaged Snowboy binaries and their Python wrappers for your system](http://docs.kitt.ai/snowboy/#downloads) and already extracted them, move them to the snowboy subdirectory in the snowzonia directory.
 
-    mv <path of the snowboy files, e.g. /home/pi/rpi-arm-raspbian-8.0-1.1.1>/* <path of snowzonia, e.g. /home/pi/snowzonia>/snowboy
+    mv <snowboy path, e.g. /home/pi/rpi-arm-raspbian-8.0-1.1.1>/* <snowzonia path, e.g. /home/pi/snowzonia>/snowboy
 
+Edit the modify-section of train_snowboy.py and execute it to train your models.
 
+    nano train_snowboy.py
+    python trainsnowboy.py
+
+In order to use Google Speech you have to save the json file with your credentials you got from google as "gcloudcreds.json" inside the snowzonia directory.
+
+Test if everything works:
+
+    python snowzonia.py
+
+I included a systemd unit file, if you want to run snowzonia as a service.
 
 ## Contributing
 I did this project to learn more about Python and Linux, because I was new to both. I basically wrote the whole code in the nano editor on a Raspberry Pi. There are probably many things I could have done better in many ways, so feel free to contribute to the project or lecture me on what's wrong with it. ;)
