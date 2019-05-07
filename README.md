@@ -45,7 +45,16 @@ If that is the case, you should consider using [PulseAudio](https://en.wikipedia
 
 
 ### Installing
-coming soon
+Go to your home folder.
+Clone the snowzonia repository:
+
+    git clone https://github.com/heinerlohmann/snowzonia.git
+
+Assuming you have downloaded [the pre-packaged Snowboy binaries and their Python wrappers for your system](http://docs.kitt.ai/snowboy/#downloads) and already extracted them, move them to the snowboy subdirectory in the snowzonia directory.
+
+    mv <path of the snowboy files, e.g. /home/pi/rpi-arm-raspbian-8.0-1.1.1>/* <path of snowzonia, e.g. /home/pi/snowzonia>/snowboy
+
+
 
 ## Contributing
 I did this project to learn more about Python and Linux, because I was new to both. I basically wrote the whole code in the nano editor on a Raspberry Pi. There are probably many things I could have done better in many ways, so feel free to contribute to the project or lecture me on what's wrong with it. ;)
