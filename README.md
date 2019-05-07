@@ -18,10 +18,12 @@ Follow the [instructions](http://docs.kitt.ai/snowboy/) to get everything workin
 If you only want a voice controlled bluetooth-speaker Snowboy is pretty much all you need and you can continue with the Installing-section.
 
 If you want to listen to music (without a connected bluetooth-device) from streaming services (e.g. Spotify) you will need [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project).
+Easy install for Tizonia: (may take a long, long while on a raspberry)
 
     curl -kL https://goo.gl/Vu8qGR | bash
 
 If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials and the python client library.
+Get Google Speech: (may take a while on a raspberry)
 
     pip install --upgrade google-cloud-speech
 
