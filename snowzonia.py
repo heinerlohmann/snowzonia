@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import snowboydecoder
+from snowboy import snowboydecoder
 import snowzonia_player
 import google_speech
 import signal
