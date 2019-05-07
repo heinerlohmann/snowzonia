@@ -20,6 +20,7 @@ If you only want a voice controlled bluetooth-speaker Snowboy is pretty much all
 If you want to listen to music (without a connected bluetooth-device) from streaming services (e.g. Spotify) you will need [Tizonia](https://github.com/tizonia/tizonia-openmax-il#the-tizonia-project).
 
 If you want to tell Tizonia what exactly it should play you will need a sophisticated speech-to-text engine. By default Snowzonia will try to use [Google Speech](https://cloud.google.com/speech-to-text/), but you will need your own credentials and the python client library.
+
     pip install --upgrade google-cloud-speech
 
 When you play music with your Pi you maybe use a HifiBerry, USB-soundcard or a similar product, because the onboard sound of the Pi is not that great. (although it is sufficient for some users)
