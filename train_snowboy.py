@@ -69,8 +69,8 @@ def sendrequest(name):
 if len(sys.argv) > 1:
 	model_names = sys.argv[1:]
 
-dir = 'models' + raw_input("enter number of directory to use: models{1, 2} or any other name for a dir you have created (name = models[your input])")
-os.system('mkdir ' + dir)
+dir = 'models' + raw_input("enter index of user [1, 2, ...]")
+os.system('mkdir ' + dir + ' 2>/dev/null')
 
 for name in model_names:
 	input = raw_input("SKIP sampling for the '" + name + "' model? [y] [Enter] (anything other than 'y' will start sampling for this model)").lower()
