@@ -11,8 +11,8 @@ import time
 from multiprocessing import Process, Lock, Queue
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-SOUNDS_PATH_1 = os.path.join(PATH, "sounds")
-SOUNDS_PATH_2 = os.path.join(PATH, "sounds")
+SOUNDS_PATH_1 = os.path.join(PATH, "sounds1")
+SOUNDS_PATH_2 = os.path.join(PATH, "sounds2")
 AUDIODEV = 'hw:0,0'
 
 # seting up gcloud
@@ -27,7 +27,7 @@ def gcloud_query():
 	return text
 
 # models to use:
-multiple_users = True
+multiple_users = False
 model_path_1 = os.path.join(PATH, "models1")
 
 if multiple_users:
