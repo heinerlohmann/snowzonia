@@ -29,24 +29,24 @@ def set_volume(value):
 	get_properties().Set('org.mpris.MediaPlayer2.Player', 'Volume', value)
 
 def play():
-        if status() == 'Paused':
+	if status() == 'Paused':
 		playback = get_playback_interface()
-        	playback.Play()
+		playback.Play()
 
 def pause():
 	if status() == 'Playing':
 		playback = get_playback_interface()
-	        playback.Pause()
+		playback.Pause()
 
 def play_track(name):
-	print 'tizonia will try to play track: ' + name
+	print('tizonia will try to play track: ' + name)
 	if is_running():
 		quit()
 	os.system('tizonia -d --spotify-tracks "' + str(name) + '"')
 	wait_until_playing()
 
 def play_artist(name, shuffle):
-        print 'tizonia will try to play artist: ' + name
+        print('tizonia will try to play artist: ' + name)
         if is_running():
                 quit()
         if shuffle == True:
@@ -56,29 +56,29 @@ def play_artist(name, shuffle):
         wait_until_playing()
 
 def play_album(name, shuffle):
-        print 'tizonia will try to play album: ' + name
-        if is_running():
+	print('tizonia will try to play album: ' + name)
+	if is_running():
 		quit()
 	if shuffle == True:
 		os.system('tizonia -d --spotify-album "' + str(name) + '" --shuffle')
-        else:
+	else:
 		os.system('tizonia -d --spotify-album "' + str(name) + '"')
-        wait_until_playing()
+	wait_until_playing()
 
 def play_playlist(name, shuffle):
-        print 'tizonia will try to play playlist: ' + name
-        if is_running():
+	print('tizonia will try to play playlist: ' + name)
+	if is_running():
 		quit()
-        if shuffle == True:
+	if shuffle == True:
                 os.system('tizonia -d --spotify-playlist "' + str(name) + '" --shuffle')
-        else:
+	else:
 		os.system('tizonia -d --spotify-playlist "' + str(name) + '"')
 	wait_until_playing()
 
 def next():
-        playback = get_playback_interface()
+	playback = get_playback_interface()
 	play()
-        playback.Next()
+	playback.Next()
 
 def previous():
         playback = get_playback_interface()
@@ -107,12 +107,12 @@ def is_running():
 		return True
 
 def quit():
-        proxy = get_proxy_object()
-        interface = dbus.Interface(proxy, dbus_interface='org.mpris.MediaPlayer2')
+	proxy = get_proxy_object()
+	interface = dbus.Interface(proxy, dbus_interface='org.mpris.MediaPlayer2')
 	interface.Quit()
 
 def wait_until_playing():
-        timeout = time.time() + 10
+	timeout = time.time() + 10
 	while status() != 'Playing' and time.time() < timeout:
                 time.sleep(0.25)
 

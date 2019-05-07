@@ -7,7 +7,7 @@ bluetooth_adapter = 'hci0'
 
 def get_adapter():
 	global bluetooth_adapter
-        return dbus.SystemBus().get_object('org.bluez', '/org/bluez/' + bluetooth_adapter)
+	return dbus.SystemBus().get_object('org.bluez', '/org/bluez/' + bluetooth_adapter)
 
 def get_adapter_path():
 	global bluetooth_adapter
@@ -22,21 +22,21 @@ def get_adapter_properties():
         return dbus.Interface(adapter, dbus_interface='org.freedesktop.DBus.Properties')
 
 def get_device_name():
-        adapter = get_adapter()
-        adapter_xml = dbus.Interface(adapter, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
-        for device in tree.fromstring(adapter_xml).findall('node'):
-                device_name = device.get('name')
-                if is_connected(device_name):
+	adapter = get_adapter()
+	adapter_xml = dbus.Interface(adapter, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
+	for device in tree.fromstring(adapter_xml).findall('node'):
+		device_name = device.get('name')
+		if is_connected(device_name):
 			return device_name
 	return None
 
 def get_device_interface(name):
-        device = dbus.SystemBus().get_object('org.bluez', get_adapter_path() + '/' + name)
+	device = dbus.SystemBus().get_object('org.bluez', get_adapter_path() + '/' + name)
 	return dbus.Interface(device, dbus_interface='org.bluez.Device1')
 
 def get_device_properties(name):
 	device = dbus.SystemBus().get_object('org.bluez', get_adapter_path() + '/' + name)
-        return dbus.Interface(device, dbus_interface='org.freedesktop.DBus.Properties')
+	return dbus.Interface(device, dbus_interface='org.freedesktop.DBus.Properties')
 
 def get_player():
 	device = get_device_name()
@@ -55,8 +55,8 @@ def is_connected(name):
 
 def get_player_name(name):
 	device = dbus.SystemBus().get_object('org.bluez', get_adapter_path() + '/' + name)
-        device_xml = dbus.Interface(device, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
-        for node in tree.fromstring(device_xml).findall('node'):
+	device_xml = dbus.Interface(device, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
+	for node in tree.fromstring(device_xml).findall('node'):
 		if 'player' in node.get('name'):
 			return node.get('name')
 	return None
@@ -68,7 +68,7 @@ def get_player_interface():
 	return None
 
 def get_player_properties():
-        player = get_player()
+	player = get_player()
 	if player != None:
 		return dbus.Interface(player, dbus_interface='org.freedesktop.DBus.Properties')
 	return None
@@ -82,11 +82,11 @@ def pause():
 	player.Pause()
 
 def next():
-        player = get_player_interface()
+	player = get_player_interface()
 	player.Next()
 
 def previous():
-        player = get_player_interface()
+	player = get_player_interface()
 	player.Previous()
 
 def status():
@@ -121,20 +121,20 @@ def start_pairing():
 	timeout = time.time() + 30
 	device_found = False
 	while time.time() < timeout and device_found == False:
-	        adapter = get_adapter()
-        	adapter_xml = dbus.Interface(adapter, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
-        	for node in tree.fromstring(adapter_xml).findall('node'):
-                	name = node.get('name')
+		adapter = get_adapter()
+		adapter_xml = dbus.Interface(adapter, dbus_interface='org.freedesktop.DBus.Introspectable').Introspect()
+		for node in tree.fromstring(adapter_xml).findall('node'):
+			name = node.get('name')
 			device = get_device_properties(name)
 			paired = bool(device.Get('org.bluez.Device1', 'Paired'))
 			trusted = bool(device.Get('org.bluez.Device1', 'Trusted'))
-			print name + str(paired) + str(trusted)
+			print(name + str(paired) + str(trusted))
 			if paired == True and trusted == False:
 				device.Set('org.bluez.Device1', 'Trusted', True)
 				device_found = True
-				print 'now trusted: ' + name
-        set_discoverable(False)
-        set_pairable(False)
+				print('now trusted: ' + name)
+	set_discoverable(False)
+	set_pairable(False)
 
 def disconnect_device():
 	device = get_device_name()

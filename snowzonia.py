@@ -20,9 +20,9 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(PATH, "gcloudcreds.j
 def gcloud_query():
 	global ignore_commands
 	ignore_commands = True
-        play_sound('startrecording.wav', False)
+	play_sound('startrecording.wav', False)
 	os.system('rec -r 16000 -c 1 -b 16 -e signed-integer ' + os.path.join(PATH, "query.wav") + ' silence -l 1 0.1 1% 1 0.5 1% trim 0 5')
-        play_sound('searching.wav', True)
+	play_sound('searching.wav', True)
 	text = google_speech.send_gcloud_query(os.path.join(PATH, "query.wav"))
 	return text
 
@@ -92,22 +92,25 @@ def command_timeout_or_playback_started_from_elsewhere(player_lock):
 	timeout = start_time + 360
 	first_sound_played = False
 	second_sound_played = False
-        playing = False
-        while time.time() < timeout and playing == False:
+	playing = False
+	while time.time() < timeout and playing == False:
 		if time.time() > first_sound and first_sound_played == False:
 			play_sound('commandtimer1.wav', True)
 			first_sound_played = True
-                if time.time() > second_sound and second_sound_played == False:
+		if time.time() > second_sound and second_sound_played == False:
                         play_sound('commandtimer2.wav', True)
                         second_sound_played = True
-                time.sleep(1)
+		time.sleep(1)
 		player_lock.acquire()
 		playing = player.is_playing()
-                player_lock.release()
+		player_lock.release()
 	if playing == False:
-		print "command timeout -> going back to wakeword detection"
+		print("command timeout -> going back to wakeword detection")
 	else:
-        	print "playback started -> going back to wakeword detection"
+        	print("playback started -> going back to wakeword detection")
+
+player_lock = Lock()
+command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
 
 def start_command_timer():
 	global command_timer
@@ -116,9 +119,6 @@ def start_command_timer():
 	command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
 	command_timer.start()
 
-player_lock = Lock()
-command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
-
 # initialize player
 player = snowzonia_player.Player()
 
@@ -126,18 +126,18 @@ player = snowzonia_player.Player()
 def handle_exception():
 	global ignore_commands
 	e = sys.exc_info()
-	print e[0]
-	print e[1]
+	print(e[0])
+	print(e[1])
 	traceback.print_tb(e[2])
-        lock_free = player_lock.acquire(False)
-        if lock_free == False:
-        	player_lock.release()
-                player_lock.acquire()
-        ignore_commands = True
-        if command_timer.is_alive():
+	lock_free = player_lock.acquire(False)
+	if lock_free == False:
+		player_lock.release()
+		player_lock.acquire()
+	ignore_commands = True
+	if command_timer.is_alive():
                 command_timer.terminate()
-        player_lock.release()
-        print "going back to wakeword detection after an exception occured"
+	player_lock.release()
+	print("going back to wakeword detection after an exception occured")
 	play_sound('exception.wav', False)
 
 # callbacks
@@ -147,10 +147,10 @@ def wakeword_1():
 	global user
 	global ignore_commands
 	try:
-      		user = 1
+		user = 1
 		player_lock.acquire()
 		player.pause()
-	        player_lock.release()
+		player_lock.release()
 		play_sound('wakeword.wav', True)
 		start_command_detection_1()
 	except:
@@ -158,25 +158,25 @@ def wakeword_1():
 
 def wakeword_2():
 	global user
-        global ignore_commands
-        try:
+	global ignore_commands
+	try:
 		user = 2
-                player_lock.acquire()
-                player.pause()
-                player_lock.release()
-                play_sound('wakeword.wav', True)
-                start_command_detection_2()
-        except:
+		player_lock.acquire()
+		player.pause()
+		player_lock.release()
+		play_sound('wakeword.wav', True)
+		start_command_detection_2()
+	except:
 		handle_exception()
 
 def next_from_wakeword_detection():
-        try:
-                print "command: next track"
-                play_sound('next.wav', False)
-                player_lock.acquire()
-                player.next()
-                player_lock.release()
-        except:
+	try:
+		print("command: next track")
+		play_sound('next.wav', False)
+		player_lock.acquire()
+		player.next()
+		player_lock.release()
+	except:
                 handle_exception()
 
 if multiple_users:
@@ -185,15 +185,15 @@ else:
         wakewords = [wakeword_1, next_from_wakeword_detection]
 
 def continuepb():
-        print "command: continue playback"
-        play_sound('continue.wav', False)
-        player_lock.acquire()
+	print("command: continue playback")
+	play_sound('continue.wav', False)
+	player_lock.acquire()
 	player.play()
-        player_lock.release()
-        return_to_wakeword_detection()
+	player_lock.release()
+	return_to_wakeword_detection()
 
 def next():
-        print "command: next track"
+        print("command: next track")
         play_sound('next.wav', False)
         player_lock.acquire()
         player.next()
@@ -201,7 +201,7 @@ def next():
         return_to_wakeword_detection()
 
 def previous():
-        print "command: previous track"
+        print("command: previous track")
         play_sound('previous.wav', False)
         player_lock.acquire()
         player.previous()
@@ -209,16 +209,16 @@ def previous():
         return_to_wakeword_detection()
 
 def play_track():
-        print "command: play track x"
+	print("command: play track x")
 	name = gcloud_query()
 	print("gspeech understood: " + name)
-        player_lock.acquire()
-      	player.play_track(name)
-        player_lock.release()
-        return_to_wakeword_detection()
+	player_lock.acquire()
+	player.play_track(name)
+	player_lock.release()
+	return_to_wakeword_detection()
 
 def play_artist():
-        print "command: play artist x"
+        print("command: play artist x")
         name = gcloud_query()
         print("gspeech understood: " + name)
         player_lock.acquire()
@@ -227,7 +227,7 @@ def play_artist():
         return_to_wakeword_detection()
 
 def play_album():
-        print "command: play album x"
+        print("command: play album x")
         name = gcloud_query()
         print("gspeech understood: " + name)
         player_lock.acquire()
@@ -236,30 +236,30 @@ def play_album():
         return_to_wakeword_detection()
 
 def play_playlist():
-        print "command: play playlist x"
-        name = gcloud_query()
-        print("gspeech understood: " + name)
-        player_lock.acquire()
+	print("command: play playlist x")
+	name = gcloud_query()
+	print("gspeech understood: " + name)
+	player_lock.acquire()
 	player.play_playlist(name)
-        player_lock.release()
-        return_to_wakeword_detection()
+	player_lock.release()
+	return_to_wakeword_detection()
 
 def volume_up():
-        print "command: volume up"
-        player_lock.acquire()
+	print("command: volume up")
+	player_lock.acquire()
 	player.volume_up()
-        player_lock.release()
-        play_sound('volumeup.wav', False)
+	player_lock.release()
+	play_sound('volumeup.wav', False)
 
 def volume_down():
-        print "command: volume down"
-        player_lock.acquire()
+	print("command: volume down")
+	player_lock.acquire()
 	player.volume_down()
-        player_lock.release()
-        play_sound('volumedown.wav', False)
+	player_lock.release()
+	play_sound('volumedown.wav', False)
 
 def toggle_shuffle():
-        print "command: toggle shuffle"
+	print("command: toggle shuffle")
 	player_lock.acquire()
 	shuffle_on = player.toggle_shuffle()
 	player_lock.release()
@@ -269,14 +269,14 @@ def toggle_shuffle():
 		play_sound('shuffleOFF.wav', False)
 
 def bluetooth_pairing():
-        print "command: start bluetooth pairing"
+	print("command: start bluetooth pairing")
 	play_sound('startbluetoothpairing.wav', True)
 	player_lock.acquire()
 	player.start_bluetooth_pairing()
 	player_lock.release()
 
 def enter_sleep_mode():
-	print "command: enter sleep mode"
+	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
 	start_sleep_mode_detection()
 
@@ -304,8 +304,8 @@ def leave_sleep_mode_1():
 	was_sleeping = True
 	sleep_mode = False
 	user = 1
-        play_sound('leavesleepmode.wav', True)
-	print "waking up - starting command detection for user 1"
+	play_sound('leavesleepmode.wav', True)
+	print("waking up - starting command detection for user 1")
 
 def leave_sleep_mode_2():
         global was_sleeping
@@ -315,7 +315,7 @@ def leave_sleep_mode_2():
         sleep_mode = False
         user = 2
         play_sound('leavesleepmode.wav', True)
-        print "waking up- starting command detection for user 2"
+        print("waking up- starting command detection for user 2")
 
 if multiple_users:
 	leave_sleep_mode = [leave_sleep_mode_1, leave_sleep_mode_2]
@@ -329,16 +329,16 @@ def play_sound(file, as_process):
 				Process(target=os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_1, file))).start()
 			else:
 				os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_1, file))
-                elif user == 2:
+		elif user == 2:
                 	if as_process:
                                 Process(target=os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_2, file))).start()
                 	else:
                         	os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_2, file))
 	except:
 		e = sys.exc_info()
-        	print e[0]
-        	print e[1]
-        	traceback.print_tb(e[2])
+		print(e[0])
+		print(e[1])
+		traceback.print_tb(e[2])
 
 
 # interrupt callbacks of detectors
@@ -350,10 +350,10 @@ def interrupt_callback():	# is called repeatedly by wakeword_detector while it i
 	return False
 
 def interrupt_callback_commands():       # is called repeatedly by command_detector while it is running
-        global ignore_commands
+	global ignore_commands
 	if command_timer.is_alive() == False:
 		ignore_commands = True
-        return ignore_commands
+	return ignore_commands
 
 def interrupt_callback_sleep_mode():
 	if sleep_mode:
@@ -364,10 +364,10 @@ def interrupt_callback_sleep_mode():
 # detection
 def start_command_detection_1():
 	global ignore_commands
-        print "starting command detection for user 1"
+	print("starting command detection for user 1")
 	ignore_commands = False
-        start_command_timer()
-	clear_commands_buffer = commands_detector_1.ring_buffer.get()
+	start_command_timer()
+	commands_detector_1.ring_buffer.get() #clear audio buffer
 	commands_detector_1.start(detected_callback=commands,
                				interrupt_check=interrupt_callback_commands,
                				sleep_time=0.03)
@@ -375,15 +375,15 @@ def start_command_detection_1():
 		return_from_sleep_mode()
 
 def start_command_detection_2():
-        global ignore_commands
-	print "starting command detection for user 2"
-        ignore_commands = False
-        start_command_timer()
-	clear_commands_buffer = commands_detector_2.ring_buffer.get()
-        commands_detector_2.start(detected_callback=commands,
+	global ignore_commands
+	print("starting command detection for user 2")
+	ignore_commands = False
+	start_command_timer()
+	commands_detector_2.ring_buffer.get() #clear audio buffer
+	commands_detector_2.start(detected_callback=commands,
                                         interrupt_check=interrupt_callback_commands,
                                         sleep_time=0.03)
-        if was_sleeping:
+	if was_sleeping:
                 return_from_sleep_mode()
 
 def return_from_sleep_mode():
@@ -391,31 +391,31 @@ def return_from_sleep_mode():
 	was_sleeping = False
 	if user == 1:
                 start_command_detection_1()
-        if user == 2:
+	if user == 2:
                 start_command_detection_2()
 
 def start_sleep_mode_detection():
 	global sleep_mode
-	print "entering detection for leave-sleepmode-command"
-        player_lock.acquire()
+	print("entering detection for leave-sleepmode-command")
+	player_lock.acquire()
 	if command_timer.is_alive():
                 command_timer.terminate()
-        player_lock.release()
+	player_lock.release()
 	sleep_mode = True
-        clear_sleepmode_buffer = sleep_mode_detector.ring_buffer.get()
-        sleep_mode_detector.start(detected_callback=leave_sleep_mode,
+	sleep_mode_detector.ring_buffer.get() #clear audio buffer
+	sleep_mode_detector.start(detected_callback=leave_sleep_mode,
                                         interrupt_check=interrupt_callback_sleep_mode,
                                         sleep_time=0.03)
 
 def return_to_wakeword_detection():
 	global ignore_commands
-        ignore_commands = True
+	ignore_commands = True
 	player_lock.acquire()
 	if command_timer.is_alive():
 		command_timer.terminate()
 	player_lock.release()
-	clear_wakeword_buffer = wakeword_detector.ring_buffer.get()
-	print "returning to wakeword detection"
+	wakeword_detector.ring_buffer.get() #clear audio buffer
+	print("returning to wakeword detection")
 
 commands_detector_1 = snowboydecoder.HotwordDetector(command_models_1, sensitivity=0.4, audio_gain=1)
 

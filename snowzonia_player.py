@@ -30,12 +30,12 @@ class Player():
 		os.system('amixer -q set Master ' + str(int(self.volume*100)) + '%')
 
 	def volume_down(self):
-                if self.volume > 0.0:
+		if self.volume > 0.0:
                         self.volume = self.volume - 0.1
 		os.system('amixer -q set Master ' + str(int(self.volume*100)) + '%')
 
 	def play(self):
-        	if bluez.is_running():
+		if bluez.is_running():
 			bluez.play()
 		elif tizonia.is_running() and self.shuffle_changed == False:
 			tizonia.play()
@@ -43,7 +43,7 @@ class Player():
 		else:
 			if self.last_played[0] == 'track':
 				self.play_track(self.last_played[1])
-                        elif self.last_played[0] == 'artist':
+			elif self.last_played[0] == 'artist':
                                 self.play_artist(self.last_played[1])
 			elif self.last_played[0] == 'album':
                                 self.play_album(self.last_played[1])
@@ -53,7 +53,7 @@ class Player():
 			self.shuffle_changed = False
 
 	def pause(self):
-                if bluez.is_running():
+		if bluez.is_running():
                         bluez.pause()
 		if tizonia.is_running():
                         tizonia.pause()
@@ -61,8 +61,8 @@ class Player():
 	def next(self):
 		if bluez.is_running():
                         bluez.next()
-                elif tizonia.is_running():
-                        tizonia.next()
+		elif tizonia.is_running():
+			tizonia.next()
 			tizonia.set_volume(self.volume)
 
 	def previous(self):
@@ -75,13 +75,13 @@ class Player():
 	# tizonia-only methods
 
 	def play_track(self, name):
-	        tizonia.play_track(name)
+		tizonia.play_track(name)
 		self.last_played = ['track', name]
 		self.tizonia_is_active = True
 		tizonia.set_volume(self.volume)
-                bluez.disconnect_device()
+		bluez.disconnect_device()
 
-        def play_artist(self, name):
+	def play_artist(self, name):
                 tizonia.play_artist(name, self.shuffle)
                 self.last_played = ['artist', name]
                 self.tizonia_is_active = True
@@ -89,32 +89,32 @@ class Player():
                 bluez.disconnect_device()
 
 	def play_album(self, name):
-                tizonia.play_album(name, self.shuffle)
-                self.last_played = ['album', name]
+		tizonia.play_album(name, self.shuffle)
+		self.last_played = ['album', name]
 		self.tizonia_is_active = True
 		tizonia.set_volume(self.volume)
-                bluez.disconnect_device()
+		bluez.disconnect_device()
 
 	def play_playlist(self, name):
-                tizonia.play_playlist(name, self.shuffle)
-                self.last_played = ['playlist', name]
+		tizonia.play_playlist(name, self.shuffle)
+		self.last_played = ['playlist', name]
 		self.tizonia_is_active = True
 		tizonia.set_volume(self.volume)
-                bluez.disconnect_device()
+		bluez.disconnect_device()
 
 	def toggle_shuffle(self):
 		if self.shuffle == False:
 			self.shuffle = True
-			print 'shuffle now on'
+			print('shuffle now on')
 		else:
 			self.shuffle = False
-			print 'shuffle now off'
+			print('shuffle now off')
 		self.shuffle_changed = True
 		return self.shuffle
 
 	# bluez-only methods
 
 	def start_bluetooth_pairing(self):
-		print 'starte bluetooth pairing...'
+		print('starting bluetooth pairing...')
 		bluez.start_pairing()
-		print 'pairing beendet'
+		print('pairing ended')
