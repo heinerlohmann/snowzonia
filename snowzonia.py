@@ -13,7 +13,6 @@ from multiprocessing import Process, Lock, Queue
 PATH = os.path.dirname(os.path.abspath(__file__))
 SOUNDS_PATH_1 = os.path.join(PATH, "sounds1")
 SOUNDS_PATH_2 = os.path.join(PATH, "sounds2")
-AUDIODEV = 'hw:0,0'
 
 # seting up gcloud
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(PATH, "gcloudcreds.json")
@@ -326,14 +325,14 @@ def play_sound(file, as_process):
 	try:
 		if user == 1:
 			if as_process:
-				Process(target=os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_1, file))).start()
+				Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
 			else:
-				os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_1, file))
+				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
 		elif user == 2:
                 	if as_process:
-                                Process(target=os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_2, file))).start()
+                                Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
                 	else:
-                        	os.system('aplay -q -D '+ AUDIODEV + ' ' + os.path.join(SOUNDS_PATH_2, file))
+                        	os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
 	except:
 		e = sys.exc_info()
 		print(e[0])
