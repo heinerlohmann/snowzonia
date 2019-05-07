@@ -12,7 +12,7 @@ def get_wave(fname):
 endpoint = "https://snowboy.kitt.ai/api/v1/train/"
 
 ############# MODIFY THE FOLLOWING #############
-token = "0414a99dc6a96237cfc8312519ab5a9d3152b324"
+token = ""
 language = "dt"
 age_group = "20_29"
 gender = "M"
@@ -61,30 +61,31 @@ def sendrequest(name):
     if response.ok:
         with open(out, "w") as outfile:
             outfile.write(response.content)
-        print "Saved model to '%s'." % out
+        print("Saved model to '%s'." % out)
     else:
-        print "Request failed."
-        print response.text
+        print("Request failed.")
+        print(response.text)
 
 if len(sys.argv) > 1:
 	model_names = sys.argv[1:]
 
-dir = raw_input("enter number of directory to use: models{1, 2} or any other name for a dir you have created (name = models[your input])")
+dir = 'models' + raw_input("enter number of directory to use: models{1, 2} or any other name for a dir you have created (name = models[your input])")
+os.system('mkdir ' + dir)
 
 for name in model_names:
-        input = raw_input("SKIP sampling for the '" + name + "' model? [y] [Enter] (anything other than 'y' will start sampling for this model)").lower()
-        if input != 'y':
+	input = raw_input("SKIP sampling for the '" + name + "' model? [y] [Enter] (anything other than 'y' will start sampling for this model)").lower()
+	if input != 'y':
 		send_request = False
 		while send_request == False:
 			raw_input("press any key to record the first sample of the model: " + name)
-			os.system('rec -r 16000 -c 1 -b 16 -e signed-integer models' + dir + '/' + name + '1.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
-        		raw_input("press any key to record the second sample of the model: " + name)
-        		os.system('rec -r 16000 -c 1 -b 16 -e signed-integer models' + dir + '/' + name + '2.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
+			os.system('rec -r 16000 -c 1 -b 16 -e signed-integer ' + dir + '/' + name + '1.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
+			raw_input("press any key to record the second sample of the model: " + name)
+			os.system('rec -r 16000 -c 1 -b 16 -e signed-integer ' + dir + '/' + name + '2.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
 			raw_input("press any key to record the third sample of the model: " + name)
-        		os.system('rec -r 16000 -c 1 -b 16 -e signed-integer models' + dir + '/' + name + '3.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
-                        os.system('aplay -D hw:0,0 models' + dir + '/' + name + '1.wav')
-                        os.system('aplay -D hw:0,0 models' + dir + '/' + name + '2.wav')
-                        os.system('aplay -D hw:0,0 models' + dir + '/' + name + '3.wav')
+			os.system('rec -r 16000 -c 1 -b 16 -e signed-integer ' + dir + '/' + name + '3.wav silence -l 1 0.1 1% 1 0.5 1% trim 0 3')
+			os.system('aplay -D hw:0,0 ' + dir + '/' + name + '1.wav')
+			os.system('aplay -D hw:0,0 ' + dir + '/' + name + '2.wav')
+			os.system('aplay -D hw:0,0 ' + dir + '/' + name + '3.wav')
 			input = raw_input("REDO this model? [y] [Enter] (anything other than 'y' will continue to the next model)").lower()
 			if input == 'y':
    				send_request = False
@@ -92,4 +93,4 @@ for name in model_names:
    				send_request = True
 		setdata(name)
 		sendrequest(name)
-print "all files were saved into models" + dir + " directory"
+print("all files were saved into " + dir + " directory")

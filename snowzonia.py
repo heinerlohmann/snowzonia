@@ -83,7 +83,7 @@ else:
 
 # command timeout -> back to wakeword detection
 # note that terminating the command_timer without acquiring the player_lock first may cause a deadlock
-# the player_lock is needed to avoid two dbus calls at the same time
+# the player_lock is needed to avoid two dbus calls at the same time, because the responses could get mixed up
 def command_timeout_or_playback_started_from_elsewhere(player_lock):
 	start_time = time.time()
 	first_sound = start_time + 120
