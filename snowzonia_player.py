@@ -7,7 +7,7 @@ class Player():
 	def __init__(self):
 		os.system('amixer -q set Master 50%')
 		self.volume = 0.5
-		self.last_played = ['playlist', 'Classic Rock'] #default
+		self.last_played = ['playlist', 'My List'] #default
 		self.shuffle = True
 		self.shuffle_changed = False
 
