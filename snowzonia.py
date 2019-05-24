@@ -388,6 +388,9 @@ def start_command_detection_2():
 def return_from_sleep_mode():
 	global was_sleeping
 	was_sleeping = False
+	player_lock.acquire()
+	player.pause()
+	player_lock.release()
 	if user == 1:
                 start_command_detection_1()
 	if user == 2:
