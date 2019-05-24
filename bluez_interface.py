@@ -75,24 +75,31 @@ def get_player_properties():
 
 def play():
 	player = get_player_interface()
-	player.Play()
+	if player != None:
+		player.Play()
 
 def pause():
 	player = get_player_interface()
-	player.Pause()
+	if player != None:
+		player.Pause()
 
 def next():
 	player = get_player_interface()
-	player.Next()
+	if player != None:
+		player.Next()
 
 def previous():
 	player = get_player_interface()
-	player.Previous()
+	if player != None:
+		player.Previous()
 
 def status():
 	properties = get_player_properties()
 	if properties != None:
-		return str(properties.Get('org.bluez.MediaPlayer1', 'Status'))
+		try:
+			return str(properties.Get('org.bluez.MediaPlayer1', 'Status'))
+		except:
+			return 'unkown'
 	else:
 		return 'not running'
 
