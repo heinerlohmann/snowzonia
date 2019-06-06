@@ -56,7 +56,7 @@ def setdata(name):
 
 def sendrequest(name):
     global data
-    out = 'models' + dir + '/' + name + ".pmdl"
+    out = dir + '/' + name + ".pmdl"
     response = requests.post(endpoint, json=data)
     if response.ok:
         with open(out, "w") as outfile:
