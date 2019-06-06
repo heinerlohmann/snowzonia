@@ -48,9 +48,9 @@ def setdata(name):
         "microphone": microphone,
         "token": token,
         "voice_samples": [
-            {"wave": get_wave("models" + dir  + "/" + name + "1.wav")},
-            {"wave": get_wave("models" + dir  + "/" + name + "2.wav")},
-            {"wave": get_wave("models" + dir  + "/" + name + "3.wav")}
+            {"wave": get_wave(dir  + "/" + name + "1.wav")},
+            {"wave": get_wave(dir  + "/" + name + "2.wav")},
+            {"wave": get_wave(dir  + "/" + name + "3.wav")}
         ]
     }
 
