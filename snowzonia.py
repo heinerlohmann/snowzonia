@@ -73,14 +73,6 @@ if multiple_users:
 	        os.path.join(model_path_2, "enter_sleep_mode.pmdl")     #12
 ]
 
-if multiple_users:
-        leave_sleep_mode_models = [
-                os.path.join(model_path_1, "leave_sleep_mode.pmdl"),    #1
-                os.path.join(model_path_2, "leave_sleep_mode.pmdl")     #2
-        ]
-else:
-        leave_sleep_mode_models = os.path.join(model_path_1, "leave_sleep_mode.pmdl") #1
-
 # command timeout -> back to wakeword detection
 # note that terminating the command_timer without acquiring the player_lock first may cause a deadlock
 # the player_lock is needed to avoid two dbus calls at the same time, because the responses could get mixed up
@@ -277,8 +269,8 @@ def bluetooth_pairing():
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
-	start_sleep_mode_detection()
-
+	subprocess.call(['shutdown', '-h', 'now'], shell=False)
+	
 commands = [
 	continuepb,
 	next,
@@ -293,33 +285,6 @@ commands = [
 	bluetooth_pairing,
 	enter_sleep_mode
 ]
-
-was_sleeping = False
-
-def leave_sleep_mode_1():
-	global was_sleeping
-	global sleep_mode
-	global user
-	was_sleeping = True
-	sleep_mode = False
-	user = 1
-	play_sound('leavesleepmode.wav', True)
-	print("waking up - starting command detection for user 1")
-
-def leave_sleep_mode_2():
-        global was_sleeping
-        global sleep_mode
-        global user
-        was_sleeping = True
-        sleep_mode = False
-        user = 2
-        play_sound('leavesleepmode.wav', True)
-        print("waking up- starting command detection for user 2")
-
-if multiple_users:
-	leave_sleep_mode = [leave_sleep_mode_1, leave_sleep_mode_2]
-else:
-	leave_sleep_mode = leave_sleep_mode_1
 
 def play_sound(file, as_process):
 	try:
@@ -342,7 +307,6 @@ def play_sound(file, as_process):
 
 # interrupt callbacks of detectors
 ignore_commands = True
-sleep_mode = False
 interrupted = False
 
 def interrupt_callback():	# is called repeatedly by wakeword_detector while it is running
@@ -354,12 +318,6 @@ def interrupt_callback_commands():       # is called repeatedly by command_detec
 		ignore_commands = True
 	return ignore_commands
 
-def interrupt_callback_sleep_mode():
-	if sleep_mode:
-		return False
-	else:
-		return True
-
 # detection
 def start_command_detection_1():
 	global ignore_commands
@@ -370,8 +328,6 @@ def start_command_detection_1():
 	commands_detector_1.start(detected_callback=commands,
                				interrupt_check=interrupt_callback_commands,
                				sleep_time=0.03)
-	if was_sleeping:
-		return_from_sleep_mode()
 
 def start_command_detection_2():
 	global ignore_commands
@@ -381,32 +337,6 @@ def start_command_detection_2():
 	commands_detector_2.ring_buffer.get() #clear audio buffer
 	commands_detector_2.start(detected_callback=commands,
                                         interrupt_check=interrupt_callback_commands,
-                                        sleep_time=0.03)
-	if was_sleeping:
-                return_from_sleep_mode()
-
-def return_from_sleep_mode():
-	global was_sleeping
-	was_sleeping = False
-	player_lock.acquire()
-	player.pause()
-	player_lock.release()
-	if user == 1:
-                start_command_detection_1()
-	if user == 2:
-                start_command_detection_2()
-
-def start_sleep_mode_detection():
-	global sleep_mode
-	print("entering detection for leave-sleepmode-command")
-	player_lock.acquire()
-	if command_timer.is_alive():
-                command_timer.terminate()
-	player_lock.release()
-	sleep_mode = True
-	sleep_mode_detector.ring_buffer.get() #clear audio buffer
-	sleep_mode_detector.start(detected_callback=leave_sleep_mode,
-                                        interrupt_check=interrupt_callback_sleep_mode,
                                         sleep_time=0.03)
 
 def return_to_wakeword_detection():
@@ -424,11 +354,8 @@ commands_detector_1 = snowboydecoder.HotwordDetector(command_models_1, sensitivi
 if multiple_users:
 	commands_detector_2 = snowboydecoder.HotwordDetector(command_models_2, sensitivity=0.4, audio_gain=1)
 
-sleep_mode_detector = snowboydecoder.HotwordDetector(leave_sleep_mode_models, sensitivity=0.4, audio_gain=1)
-
 wakeword_detector = snowboydecoder.HotwordDetector(wakeword_models, sensitivity=0.4, audio_gain=1)
 play_sound('leavesleepmode.wav', False)
 wakeword_detector.start(detected_callback=wakewords,
         	       	interrupt_check=interrupt_callback,
                		sleep_time=0.03)
-
