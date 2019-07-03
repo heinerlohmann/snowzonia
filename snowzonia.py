@@ -269,7 +269,7 @@ def bluetooth_pairing():
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
-	os.system('sudo shutdown -h now')
+	os.system('sudo systemctl halt')
 	
 commands = [
 	continuepb,
