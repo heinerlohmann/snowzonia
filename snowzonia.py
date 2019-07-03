@@ -8,7 +8,6 @@ import os
 import sys
 import traceback
 import time
-import subprocess
 from multiprocessing import Process, Lock, Queue
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -270,7 +269,7 @@ def bluetooth_pairing():
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
-	subprocess.call(['shutdown', '-h', 'now'], shell=True)
+	os.system('sudo shutdown -h now')
 	
 commands = [
 	continuepb,
