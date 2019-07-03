@@ -270,7 +270,7 @@ def bluetooth_pairing():
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
-	subprocess.call(['shutdown', '-h', 'now'], shell=False)
+	subprocess.call(['shutdown', '-h', 'now'], shell=True)
 	
 commands = [
 	continuepb,
