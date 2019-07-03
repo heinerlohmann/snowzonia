@@ -4,3 +4,5 @@ models2
 sounds1
 sounds2
 gcloudcreds.json
+snowboy/*
+!snowboy/__init__.py
