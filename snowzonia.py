@@ -186,7 +186,8 @@ else:
 
 def continuepb():
 	print("command: continue playback")
-	movement_feedback = Process(target=r2d2.turn_head_randomly(0.3)).start()
+	movement_feedback = Process(target=r2d2.turn_head_randomly(0.3))
+	movement_feedback.start()
 	play_sound('continue.wav', False)
 	player_lock.acquire()
 	player.play()
