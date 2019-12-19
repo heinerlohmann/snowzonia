@@ -32,8 +32,9 @@ BLUE1 = 6
 BLUE2 = 13
 LEIA = 26
 
+POSTURES = [[1,1,1,0], [1,0,0,0], [1,0,1,1], [1,0,1,0], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
+
 class R2D2():
-    postures = [[1,1,1,0], [1,0,0,0], [1,0,1,1], [1,0,1,0], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
 
     def __init__(self):
         self.motor_left = Motor(ML1, ML2)
@@ -70,8 +71,8 @@ class R2D2():
         return [b0,b1,b2,b3]
 
     def core_turn_to(self, posture):
-        start_index = postures.index(get_posture())
-        goal_index = postures.index(posture)
+        start_index = POSTURES.index(get_posture())
+        goal_index = POSTURES.index(posture)
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
