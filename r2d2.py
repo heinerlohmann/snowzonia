@@ -92,9 +92,9 @@ class R2D2():
             print "direction: none"
 
     def default_posture(self, speed):
-	    if self.get_posture() > 6:
+	if self.get_posture() > 6:
             self.turn_core_to(5, speed)
-	    elif self.get_posture() < 5:
+	elif self.get_posture() < 5:
             self.turn_core_to(6, speed)
 
     def force_default_posture(self, speed):
@@ -108,7 +108,7 @@ class R2D2():
         duration1 = uniform(0.4, 0.7)
         duration2 = uniform(0.4, 0.7)
         direction = randint(0, 1)
-	    print duration1, duration2, direction
+	print duration1, duration2, direction
         for i in range(2):
             if direction == 0:
                 direction = 1
@@ -128,7 +128,7 @@ class R2D2():
     def sad_posture(self, speed):
         self.turn_core_to(0, speed)
         self.turn_core_to(2, speed)
-    
+
     def forward(self, duration, speed):
         self.motor_left.forward(speed)
         self.motor_right.forward(speed)
@@ -156,29 +156,18 @@ class R2D2():
         sleep(duration)
         self.motor_left.stop()
         self.motor_right.stop()
-    
+
     def random_dance(self):
-        dance_index = randint(1)
+        #dance_index = randint(0, 3)
         # still to write
-        self.dance_upright(self, 5)
-        self.default_posture()
+        self.dance_upright(5)
+        self.default_posture(0.5)
 
     def dance_upright(self, duration):
         self.turn_core_to(3, 1)
-        self.turn_left(0.1, 0.2)
+        self.turn_left(0.1, 0.3)
         timeout = time() + duration
         while time() < timeout:
-            self.turn_right(0.2, 0.2)
-            self.turn_left(0.2, 0.2)
-        self.turn_right(0.1, 0.2)   
-
-
-    
-
-
-
-    
-
-    
-
-
+            self.turn_right(0.2, 0.3)
+            self.turn_left(0.2, 0.3)
+        self.turn_right(0.1, 0.3)
