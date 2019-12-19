@@ -60,6 +60,7 @@ class R2D2():
         self.led_blue1.off()
         self.led_blue2.off()
         self.led_leia.off()
+        self.test = 'meh'
 
     def core_turn_right():
         b0 = self.pos_b0.value
