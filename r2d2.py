@@ -75,7 +75,7 @@ class R2D2():
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
-        else if start_index > goal_index:
+        elif start_index > goal_index:
             print "direction: backward"
         else:
             print "direction: none"
