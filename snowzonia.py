@@ -90,20 +90,20 @@ def command_timeout_or_playback_started_from_elsewhere(player_lock):
 	second_sound_played = False
 	playing = False
 	while time.time() < timeout and playing == False:
-		if time.time() > first_sound and first_sound_played == False:
-			play_sound('commandtimer1.wav', True)
-			first_sound_played = True
-		if time.time() > second_sound and second_sound_played == False:
-            play_sound('commandtimer2.wav', True)
-            second_sound_played = True
-		time.sleep(1)
-		player_lock.acquire()
-		playing = player.is_playing()
-		player_lock.release()
+	    if time.time() > first_sound and first_sound_played == False:
+	        play_sound('commandtimer1.wav', True)
+		first_sound_played = True
+	    if time.time() > second_sound and second_sound_played == False:
+                play_sound('commandtimer2.wav', True)
+                second_sound_played = True
+	    time.sleep(1)
+	    player_lock.acquire()
+            playing = player.is_playing()
+	    player_lock.release()
 	if playing == False:
-		print("command timeout -> going back to wakeword detection")
+	    print("command timeout -> going back to wakeword detection")
 	else:
-        print("playback started -> going back to wakeword detection")
+            print("playback started -> going back to wakeword detection")
 
 player_lock = Lock()
 command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
@@ -111,7 +111,7 @@ command_timer = Process(target=command_timeout_or_playback_started_from_elsewher
 def start_command_timer():
 	global command_timer
 	if command_timer.is_alive():
-		command_timer.terminate()
+	    command_timer.terminate()
 	command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
 	command_timer.start()
 
@@ -134,7 +134,7 @@ def handle_exception():
 		player_lock.acquire()
 	ignore_commands = True
 	if command_timer.is_alive():
-        command_timer.terminate()
+            command_timer.terminate()
 	player_lock.release()
 	print("going back to wakeword detection after an exception occured")
 	play_sound('exception.wav', False)
@@ -323,22 +323,22 @@ else:
 	leave_sleep_mode = leave_sleep_mode_1
 
 def play_sound(file, as_process):
-	try:
-		if user == 1:
-			if as_process:
-				Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
-			else:
-				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
-		elif user == 2:
+    try:
+        if user == 1:
+            if as_process:
+                Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
+            else:
+                os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
+        elif user == 2:
             if as_process:
                 Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
             else:
                 os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
-	except:
-		e = sys.exc_info()
-		print(e[0])
-		print(e[1])
-		traceback.print_tb(e[2])
+    except:
+        e = sys.exc_info()
+        print(e[0])
+        print(e[1])
+        traceback.print_tb(e[2])
 
 
 # interrupt callbacks of detectors
@@ -384,7 +384,7 @@ def start_command_detection_2():
         interrupt_check=interrupt_callback_commands,
         sleep_time=0.03)
 	if was_sleeping:
-        return_from_sleep_mode()
+            return_from_sleep_mode()
 
 def return_from_sleep_mode():
 	global was_sleeping
@@ -393,16 +393,16 @@ def return_from_sleep_mode():
 	player.pause()
 	player_lock.release()
 	if user == 1:
-        start_command_detection_1()
+            start_command_detection_1()
 	if user == 2:
-        start_command_detection_2()
+            start_command_detection_2()
 
 def start_sleep_mode_detection():
 	global sleep_mode
 	print("entering detection for leave-sleepmode-command")
 	player_lock.acquire()
 	if command_timer.is_alive():
-        command_timer.terminate()
+            command_timer.terminate()
 	player_lock.release()
 	sleep_mode = True
 	sleep_mode_detector.ring_buffer.get() #clear audio buffer

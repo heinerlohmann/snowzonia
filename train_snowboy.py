@@ -12,7 +12,7 @@ def get_wave(fname):
 endpoint = "https://snowboy.kitt.ai/api/v1/train/"
 
 ############# MODIFY THE FOLLOWING #############
-token = ""
+token = "0414a99dc6a96237cfc8312519ab5a9d3152b324"
 language = "dt"
 age_group = "20_29"
 gender = "M"
