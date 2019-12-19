@@ -150,8 +150,8 @@ def wakeword_1():
 		player_lock.acquire()
 		player.pause()
 		player_lock.release()
+		movement_feedback = Process(target=r2d2.force_default_posture(0.3)).start()
 		play_sound('wakeword.wav', True)
-		movement_feedback = Process(target=r2d2.turn_head_randomly(0.3)).start()
 		start_command_detection_1()
 	except:
 		handle_exception()
@@ -290,8 +290,6 @@ commands = [
 	play_playlist,
 	volume_up,
 	volume_down,
-	toggle_shuffle,
-	bluetooth_pairing,
 	enter_sleep_mode
 ]
 
