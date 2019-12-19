@@ -32,7 +32,7 @@ BLUE1 = 6
 BLUE2 = 13
 LEIA = 26
 
-POSTURES = [[1,1,1,0], [1,0,0,0], [1,0,1,1], [1,0,1,0], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
+POSTURES = [[1,1,1,0], [1,0,0,0], [1,0,1,0], [1,0,1,1], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
 
 class R2D2():
 
@@ -76,24 +76,34 @@ class R2D2():
         else:
             return False
 
-    def core_turn_to(self, goal_posture):
+    def core_turn_to(self, goal_index, speed):
         start_index = POSTURES.index(self.get_posture())
-        goal_index = POSTURES.index(goal_posture)
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
-            self.motor_core.forward(0.5)
+            self.motor_core.forward(speed)
             while not self.is_posture(goal_posture):
                 sleep(0.05)
             self.motor_core.stop()
         elif start_index > goal_index:
             print "direction: backward"
-            self.motor_core.backward(0.5)
+            self.motor_core.backward(speed)
             while not self.is_posture(goal_posture):
                 sleep(0.05)
             self.motor_core.stop()
         else:
             print "direction: none"
+
+    def turn_head(self, speed):
+        current_index = POSTURES.index(self.get_posture())
+        if current_index == 5:
+            core_turn_to(7, speed)
+        elif current_index == 7:
+            core_turn_to(5, speed)
+        elif current_index == 0:
+            core_turn_to(2, speed)
+        elif current_index == 2:
+            core_turn_to(0, speed)
 
     def core_turn_right(self):
         b0 = self.pos_b0.value
