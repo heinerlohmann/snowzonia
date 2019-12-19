@@ -2,6 +2,8 @@ from gpiozero import Button
 from gpiozero import Motor
 from gpiozero import LED
 from time import sleep
+from random import uniform
+from random import randint
 
 # GPIO configuration
 # motor left leg
@@ -97,6 +99,28 @@ class R2D2():
 
     def default_posture(self):
         self.core_turn_to(5, 1.0)
+
+    def turn_head_randomly_from_default(self, speed)
+        self.default_posture()
+        duration1 = uniform(0.1, 0.5)
+        duration2 = uniform(0.1, 0.5)
+        direction = randint(0, 1)
+        for i in range(2):
+            if direction == 0:
+                direction = 1
+                self.motor_core.forward()
+                time = time.time()
+                timeout = time + duration1
+            else:
+                direction = 0
+                self.motor_core.backward()
+                time = time.time()
+                timeout = time + duration2
+            while time.time() < timeout and not (self.get_posture() == 4 or self.get_posture == 6)
+                sleep(0.01)
+            self.motor_core.stop()
+        self.default_posture()
+
 
     def turn_head(self, speed):
         current_index = self.get_posture()
