@@ -60,9 +60,8 @@ class R2D2():
         self.led_blue1.off()
         self.led_blue2.off()
         self.led_leia.off()
-        self.test = 'meh'
 
-    def core_turn_right():
+    def core_turn_right(self):
         b0 = self.pos_b0.value
         b1 = self.pos_b1.value
         b2 = self.pos_b2.value
@@ -80,7 +79,7 @@ class R2D2():
             print "cannot move further right"
             return False
 
-    def core_turn_left():
+    def core_turn_left(self):
         b0 = self.pos_b0.value
         b1 = self.pos_b1.value
         b2 = self.pos_b2.value
