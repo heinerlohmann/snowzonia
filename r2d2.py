@@ -81,18 +81,17 @@ class R2D2():
 
     def core_turn_to(self, goal_index, speed):
         start_index = self.get_posture()
-        goal_posture = POSTURES[goal_index]
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
             self.motor_core.forward(speed)
-            while not self.is_posture(goal_posture):
+            while not self.get_posture() == goal_index:
                 sleep(0.01)
             self.motor_core.stop()
         elif start_index > goal_index:
             print "direction: backward"
             self.motor_core.backward(speed)
-            while not self.is_posture(goal_posture):
+            while not self.get_posture() == goal_index:
                 sleep(0.01)
             self.motor_core.stop()
         else:
