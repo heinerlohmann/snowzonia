@@ -73,13 +73,7 @@ class R2D2():
         b3 = self.pos_b3.value
         return POSTURES.index([b0,b1,b2,b3])
 
-    def is_posture(self, posture):
-        if posture[0]==self.pos_b0.value and posture[1]==self.pos_b1.value and posture[2]==self.pos_b2.value and posture[3]==self.pos_b3.value:
-            return True
-        else:
-            return False
-
-    def core_turn_to(self, goal_index, speed):
+    def turn_core_to(self, goal_index, speed):
         start_index = self.get_posture()
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
@@ -98,23 +92,23 @@ class R2D2():
             print "direction: none"
 
     def default_posture(self, speed):
-	if self.get_posture() > 6:
-            self.core_turn_to(5, speed)
-	elif self.get_posture() < 5:
-            self.core_turn_to(6, speed)
+	    if self.get_posture() > 6:
+            self.turn_core_to(5, speed)
+	    elif self.get_posture() < 5:
+            self.turn_core_to(6, speed)
 
     def force_default_posture(self, speed):
         if self.get_posture() > 5:
-            self.core_turn_to(5, speed)
+            self.turn_core_to(5, speed)
         elif self.get_posture() < 6:
-            self.core_turn_to(6, speed)
+            self.turn_core_to(6, speed)
 
-    def turn_head_randomly_from_default(self, speed):
+    def turn_head_randomly(self, speed):
         self.default_posture(speed)
         duration1 = uniform(0.4, 0.7)
         duration2 = uniform(0.4, 0.7)
         direction = randint(0, 1)
-	print duration1, duration2, direction
+	    print duration1, duration2, direction
         for i in range(2):
             if direction == 0:
                 direction = 1
@@ -131,54 +125,57 @@ class R2D2():
             self.motor_core.stop()
         self.force_default_posture(speed)
 
+    def sad_posture(self, speed):
+        self.turn_core_to(0, speed)
+        self.turn_core_to(2, speed)
+    
+    def forward(self, duration, speed):
+        self.motor_left.forward(speed)
+        self.motor_right.forward(speed)
+        sleep(duration)
+        self.motor_left.stop()
+        self.motor_right.stop()
 
-    def turn_head(self, speed):
-        current_index = self.get_posture()
-        print "current index: ", current_index
-        if current_index == 4 or current_index == 5 or current_index == 3:
-            self.core_turn_to(6, speed)
-        elif current_index == 6 or current_index == 7:
-            self.core_turn_to(4, speed)
-        elif current_index == 0 or current_index == 1:
-            self.core_turn_to(2, speed)
-        elif current_index == 2:
-            self.core_turn_to(0, speed)
+    def backward(self, duration, speed):
+        self.motor_left.backward(speed)
+        self.motor_right.backward(speed)
+        sleep(duration)
+        self.motor_left.stop()
+        self.motor_right.stop()
 
-    def core_turn_right(self):
-        b0 = self.pos_b0.value
-        b1 = self.pos_b1.value
-        b2 = self.pos_b2.value
-        b3 = self.pos_b3.value
-        print "start:", b0, b1, b2, b3
-        if not(b0==1 and b1==1 and b2==0):
-            print "moving one to right"
-            self.motor_core.forward(0.5)
-            while (b0==self.pos_b0.value and b1==self.pos_b1.value and b2==self.pos_b2.value and b3==self.pos_b3.value):
-                sleep(0.05)
-            self.motor_core.stop()
-            print "end:", self.pos_b0.value, self.pos_b1.value, self.pos_b2.value, self.pos_b3.value
-            return True
-        else:
-            print "cannot move further right"
-            return False
+    def turn_left(self, duration, speed):
+        self.motor_left.backward(speed)
+        self.motor_right.forward(speed)
+        sleep(duration)
+        self.motor_left.stop()
+        self.motor_right.stop()
 
-    def core_turn_left(self):
-        b0 = self.pos_b0.value
-        b1 = self.pos_b1.value
-        b2 = self.pos_b2.value
-        b3 = self.pos_b3.value
-        print "start:", b0, b1, b2, b3
-        if not(b0==1 and b1==1 and b2==1):
-            print "moving one to left"
-            self.motor_core.backward(0.5)
-            while (b0==self.pos_b0.value and b1==self.pos_b1.value and b2==self.pos_b2.value and b3==self.pos_b3.value):
-                sleep(0.05)
-            self.motor_core.stop()
-            print "end:", self.pos_b0.value, self.pos_b1.value, self.pos_b2.value, self.pos_b3.value
-            return True
-        else:
-            print "cannot move further left"
-            return False
+    def turn_right(self, duration, speed):
+        self.motor_left.forward(speed)
+        self.motor_right.backward(speed)
+        sleep(duration)
+        self.motor_left.stop()
+        self.motor_right.stop()
+    
+    def random_dance(self):
+        dance_index = randint(1)
+        # still to write
+        self.dance_upright(self, 5)
+        self.default_posture()
+
+    def dance_upright(self, duration):
+        self.turn_core_to(3, 1)
+        self.turn_left(0.1, 0.2)
+        timeout = time() + duration
+        while time() < timeout:
+            self.turn_right(0.2, 0.2)
+            self.turn_left(0.2, 0.2)
+        self.turn_right(0.1, 0.2)   
+
+
+    
+
+
 
     
 
