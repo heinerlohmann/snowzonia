@@ -68,7 +68,7 @@ class R2D2():
         b1 = self.pos_b1.value
         b2 = self.pos_b2.value
         b3 = self.pos_b3.value
-        return [b0,b1,b2,b3]
+        return POSTURES.index([b0,b1,b2,b3])
 
     def is_posture(self, posture):
         if posture[0]==self.pos_b0.value and posture[1]==self.pos_b1.value and posture[2]==self.pos_b2.value and posture[3]==self.pos_b3.value:
@@ -77,7 +77,7 @@ class R2D2():
             return False
 
     def core_turn_to(self, goal_index, speed):
-        start_index = POSTURES.index(self.get_posture())
+        start_index = self.get_posture()
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
@@ -95,15 +95,15 @@ class R2D2():
             print "direction: none"
 
     def turn_head(self, speed):
-        current_index = POSTURES.index(self.get_posture())
+        current_index = self.get_posture()
         if current_index == 5:
-            core_turn_to(7, speed)
+            self.core_turn_to(7, speed)
         elif current_index == 7:
-            core_turn_to(5, speed)
+            self.core_turn_to(5, speed)
         elif current_index == 0:
-            core_turn_to(2, speed)
+            self.core_turn_to(2, speed)
         elif current_index == 2:
-            core_turn_to(0, speed)
+            self.core_turn_to(0, speed)
 
     def core_turn_right(self):
         b0 = self.pos_b0.value
