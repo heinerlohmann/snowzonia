@@ -71,7 +71,7 @@ class R2D2():
         return [b0,b1,b2,b3]
 
     def core_turn_to(self, posture):
-        start_index = POSTURES.index(get_posture())
+        start_index = POSTURES.index(self.get_posture())
         goal_index = POSTURES.index(posture)
         print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
