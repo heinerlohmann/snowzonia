@@ -79,7 +79,7 @@ class R2D2():
     def core_turn_to(self, goal_posture):
         start_index = POSTURES.index(self.get_posture())
         goal_index = POSTURES.index(goal_posture)
-        print "turning from " index ", start_index, " to index ", goal_index
+        print "turning from index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
             self.motor_core.forward(0.5)
