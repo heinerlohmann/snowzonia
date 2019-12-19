@@ -62,7 +62,7 @@ class R2D2():
         self.led_blue1.off()
         self.led_blue2.off()
         self.led_leia.off()
-    
+
     def get_posture(self):
         b0 = self.pos_b0.value
         b1 = self.pos_b1.value
@@ -70,14 +70,28 @@ class R2D2():
         b3 = self.pos_b3.value
         return [b0,b1,b2,b3]
 
-    def core_turn_to(self, posture):
+    def is_posture(self, posture):
+        if posture[0]==self.pos_b0.value and posture[1]==self.pos_b1.value and posture[2]==self.pos_b2.value and posture[3]==self.pos_b3.value:
+            return True
+        else:
+            return False
+
+    def core_turn_to(self, goal_posture):
         start_index = POSTURES.index(self.get_posture())
-        goal_index = POSTURES.index(posture)
-        print "turning from index ", start_index, " to index ", goal_index
+        goal_index = POSTURES.index(goal_posture)
+        print "turning from " index ", start_index, " to index ", goal_index
         if start_index < goal_index:
             print "direction: forward"
+            self.motor_core.forward(0.5)
+            while not self.is_posture(goal_posture):
+                sleep(0.05)
+            self.motor_core.stop()
         elif start_index > goal_index:
             print "direction: backward"
+            self.motor_core.backward(0.5)
+            while not self.is_posture(goal_posture):
+                sleep(0.05)
+            self.motor_core.stop()
         else:
             print "direction: none"
 
