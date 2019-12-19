@@ -96,6 +96,7 @@ class R2D2():
 
     def turn_head(self, speed):
         current_index = self.get_posture()
+        print "current index: ", current_index
         if current_index == 5:
             self.core_turn_to(7, speed)
         elif current_index == 7:
