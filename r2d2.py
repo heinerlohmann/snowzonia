@@ -2,6 +2,7 @@ from gpiozero import Button
 from gpiozero import Motor
 from gpiozero import LED
 from time import sleep
+from time import time
 from random import uniform
 from random import randint
 
@@ -34,7 +35,7 @@ BLUE1 = 6
 BLUE2 = 13
 LEIA = 26
 
-POSTURES = [[1,1,1,0], [1,0,0,0], [1,0,1,0], [1,0,1,1], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
+POSTURES = [[1,1,1,0], [1,0,0,0], [1,0,1,0], [1,0,1,1], [1,0,1,0], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
 
 class R2D2():
 
@@ -97,29 +98,39 @@ class R2D2():
         else:
             print "direction: none"
 
-    def default_posture(self):
-        self.core_turn_to(5, 1.0)
+    def default_posture(self, speed):
+	if self.get_posture() > 6:
+            self.core_turn_to(5, speed)
+	elif self.get_posture() < 5:
+            self.core_turn_to(6, speed)
 
-    def turn_head_randomly_from_default(self, speed)
-        self.default_posture()
-        duration1 = uniform(0.1, 0.5)
-        duration2 = uniform(0.1, 0.5)
+    def force_default_posture(self, speed):
+        if self.get_posture() > 5:
+            self.core_turn_to(5, speed)
+        elif self.get_posture() < 6:
+            self.core_turn_to(6, speed)
+
+    def turn_head_randomly_from_default(self, speed):
+        self.default_posture(speed)
+        duration1 = uniform(0.4, 0.7)
+        duration2 = uniform(0.4, 0.7)
         direction = randint(0, 1)
+	print duration1, duration2, direction
         for i in range(2):
             if direction == 0:
                 direction = 1
-                self.motor_core.forward()
-                time = time.time()
-                timeout = time + duration1
+                self.motor_core.forward(speed)
+                timeout = time() + duration1
+                while time() < timeout and not self.get_posture() == 7:
+                    sleep(0.01)
             else:
                 direction = 0
-                self.motor_core.backward()
-                time = time.time()
-                timeout = time + duration2
-            while time.time() < timeout and not (self.get_posture() == 4 or self.get_posture == 6)
-                sleep(0.01)
+                self.motor_core.backward(speed)
+                timeout = time() + duration2
+                while time() < timeout and not self.get_posture() == 4:
+                    sleep(0.01)
             self.motor_core.stop()
-        self.default_posture()
+        self.force_default_posture(speed)
 
 
     def turn_head(self, speed):
