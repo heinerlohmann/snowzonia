@@ -84,25 +84,28 @@ class R2D2():
             print "direction: forward"
             self.motor_core.forward(speed)
             while not self.is_posture(goal_posture):
-                sleep(0.05)
+                sleep(0.01)
             self.motor_core.stop()
         elif start_index > goal_index:
             print "direction: backward"
             self.motor_core.backward(speed)
             while not self.is_posture(goal_posture):
-                sleep(0.05)
+                sleep(0.01)
             self.motor_core.stop()
         else:
             print "direction: none"
 
+    def default_posture(self):
+        self.core_turn_to(5, 1.0)
+
     def turn_head(self, speed):
         current_index = self.get_posture()
         print "current index: ", current_index
-        if current_index == 5:
-            self.core_turn_to(7, speed)
-        elif current_index == 7:
-            self.core_turn_to(5, speed)
-        elif current_index == 0:
+        if current_index == 4 or current_index == 5 or current_index == 3:
+            self.core_turn_to(6, speed)
+        elif current_index == 6 or current_index == 7:
+            self.core_turn_to(4, speed)
+        elif current_index == 0 or current_index == 1:
             self.core_turn_to(2, speed)
         elif current_index == 2:
             self.core_turn_to(0, speed)
