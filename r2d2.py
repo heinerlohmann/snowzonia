@@ -2,35 +2,36 @@ from gpiozero import Button
 from gpiozero import Motor
 from gpiozero import LED
 
+# GPIO configuration
+# motor left leg
+ML1 = 14
+ML2 = 15
+# motor right leg
+MR1 = 23
+MR2 = 24
+# motor core
+MC1 = 16
+MC2 = 20
+# position sensors
+B0 = 25
+B1 = 8
+B2 = 7
+B3 = 12
+# buttons
+ON_OFF = 4
+VOL_UP = 17
+VOL_DOWN = 27
+NEXT = 22
+SHUFFLE = 11
+BLUETOOTH = 10
+WIFI = 9
+# LEDs
+RED = 5
+BLUE1 = 6
+BLUE2 = 13
+LEIA = 26
+
 class R2D2():
-    # GPIO configuration
-    # motor left leg
-    ML1 = 14
-    ML2 = 15
-    # motor right leg
-    MR1 = 23
-    MR2 = 24
-    # motor core
-    MC1 = 16
-    MC2 = 20
-    # position sensors
-    B0 = 25
-    B1 = 8
-    B2 = 7
-    B3 = 12
-    # buttons
-    ON_OFF = 4
-    VOL_UP = 17
-    VOL_DOWN = 27
-    NEXT = 22
-    SHUFFLE = 11
-    BLUETOOTH = 10
-    WIFI = 9
-    # LEDs
-    RED = 5
-    BLUE1 = 6
-    BLUE2 = 13
-    LEIA = 26
 
     def __init__(self):
         motor_left = Motor(ML1, ML2)
