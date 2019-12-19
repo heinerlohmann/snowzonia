@@ -33,6 +33,7 @@ BLUE2 = 13
 LEIA = 26
 
 class R2D2():
+    postures = [[1,1,1,0], [1,0,0,0], [1,0,1,1], [1,0,1,0], [0,0,1,0], [0,1,1,0], [0,1,0,0], [1,1,0,0]]
 
     def __init__(self):
         self.motor_left = Motor(ML1, ML2)
@@ -60,6 +61,24 @@ class R2D2():
         self.led_blue1.off()
         self.led_blue2.off()
         self.led_leia.off()
+    
+    def get_posture(self):
+        b0 = self.pos_b0.value
+        b1 = self.pos_b1.value
+        b2 = self.pos_b2.value
+        b3 = self.pos_b3.value
+        return [b0,b1,b2,b3]
+
+    def core_turn_to(self, posture):
+        start_index = postures.index(get_posture())
+        goal_index = postures.index(posture)
+        print "turning from index ", start_index, " to index ", goal_index
+        if start_index < goal_index:
+            print "direction: forward"
+        else if start_index > goal_index:
+            print "direction: backward"
+        else:
+            print "direction: none"
 
     def core_turn_right(self):
         b0 = self.pos_b0.value
@@ -96,6 +115,8 @@ class R2D2():
         else:
             print "cannot move further left"
             return False
+
+    
 
     
 
