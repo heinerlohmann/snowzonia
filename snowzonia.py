@@ -139,6 +139,7 @@ def listen_to_buttons():
 		sleep(0.5)
 
 button_listener = Thread(target=listen_to_buttons)
+button_listener.start()
 
 # exception handler
 def handle_exception():
