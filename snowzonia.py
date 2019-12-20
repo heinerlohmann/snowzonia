@@ -9,6 +9,7 @@ import os
 import sys
 import traceback
 import time
+from thread import start_new_thread
 from multiprocessing import Process, Lock, Queue
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -150,7 +151,7 @@ def wakeword_1():
 		player_lock.acquire()
 		player.pause()
 		player_lock.release()
-		movement_feedback = Process(target=r2d2.force_default_posture(0.3)).start()
+		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_1()
 	except:
@@ -186,8 +187,7 @@ else:
 
 def continuepb():
 	print("command: continue playback")
-	movement_feedback = Process(target=r2d2.turn_head_randomly(0.3))
-	movement_feedback.start()
+	start_new_thread(r2d2.turn_head_randomly, (2, 0.3))
 	play_sound('continue.wav', False)
 	player_lock.acquire()
 	player.play()

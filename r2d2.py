@@ -98,12 +98,12 @@ class R2D2():
         elif self.get_posture() < 6:
             self.turn_core_to(6, speed)
 
-    def turn_head_randomly(self, speed):
+    def turn_head_randomly(self, times, speed):
         self.default_posture(speed)
         duration1 = uniform(0.4, 0.7)
         duration2 = uniform(0.4, 0.7)
         direction = randint(0, 1)
-        for i in range(2):
+        for i in range(times):
             if direction == 0:
                 direction = 1
                 self.motor_core.forward(speed)
