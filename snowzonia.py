@@ -10,6 +10,7 @@ import sys
 import traceback
 import time
 from thread import start_new_thread
+from threading import Thread
 from multiprocessing import Process, Lock, Queue
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -109,6 +110,7 @@ def command_timeout_or_playback_started_from_elsewhere(player_lock):
 player_lock = Lock()
 command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
 
+# change to threading?
 def start_command_timer():
 	global command_timer
 	if command_timer.is_alive():
@@ -121,6 +123,21 @@ player = snowzonia_player.Player()
 
 # initialize r2d2
 r2d2 = R2D2()
+
+def listen_to_buttons():
+	while True:
+		if r2d2.but_next.is_pressed():
+			try:
+				print("command: next track")
+				play_sound('next.wav', False)
+				player_lock.acquire()
+				player.next()
+				player_lock.release()
+			except:
+				handle_exception()
+		sleep(0.5)
+
+button_listener = Thread(target=listen_to_buttons, name=button_listener)
 
 # exception handler
 def handle_exception():
@@ -165,6 +182,7 @@ def wakeword_2():
 		player_lock.acquire()
 		player.pause()
 		player_lock.release()
+		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_2()
 	except:
@@ -260,23 +278,6 @@ def volume_down():
 	player_lock.release()
 	play_sound('volumedown.wav', False)
 
-def toggle_shuffle():
-	print("command: toggle shuffle")
-	player_lock.acquire()
-	shuffle_on = player.toggle_shuffle()
-	player_lock.release()
-	if shuffle_on:
-		play_sound('shuffleON.wav', False)
-	else:
-		play_sound('shuffleOFF.wav', False)
-
-def bluetooth_pairing():
-	print("command: start bluetooth pairing")
-	play_sound('startbluetoothpairing.wav', True)
-	player_lock.acquire()
-	player.start_bluetooth_pairing()
-	player_lock.release()
-
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	play_sound('entersleepmode.wav', True)
@@ -322,6 +323,7 @@ if multiple_users:
 else:
 	leave_sleep_mode = leave_sleep_mode_1
 
+# change to threading, play at 100%?
 def play_sound(file, as_process):
     try:
         if user == 1:
