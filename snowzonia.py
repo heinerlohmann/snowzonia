@@ -125,7 +125,7 @@ player = snowzonia_player.Player()
 r2d2 = R2D2()
 
 class Button_Listener(Thread):
-	def run(self)
+	def run(self):
 		while True:
 			print "listening to buttons..."
 			if r2d2.but_next.is_pressed():
