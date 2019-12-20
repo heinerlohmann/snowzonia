@@ -124,21 +124,22 @@ player = snowzonia_player.Player()
 # initialize r2d2
 r2d2 = R2D2()
 
-def listen_to_buttons():
-	while True:
-		print "listening to buttons..."
-		if r2d2.but_next.is_pressed():
-			try:
-				print("command: next track")
-				play_sound('next.wav', False)
-				player_lock.acquire()
-				player.next()
-				player_lock.release()
-			except:
-				handle_exception()
-		sleep(0.5)
+class Button_Listener(Thread):
+	def run(self)
+		while True:
+			print "listening to buttons..."
+			if r2d2.but_next.is_pressed():
+				try:
+					print("command: next track")
+					play_sound('next.wav', False)
+					player_lock.acquire()
+					player.next()
+					player_lock.release()
+				except:
+					handle_exception()
+			sleep(0.5)
 
-button_listener = Thread(target=listen_to_buttons)
+button_listener = Button_Listener()
 button_listener.start()
 
 # exception handler
