@@ -126,6 +126,7 @@ r2d2 = R2D2()
 
 def listen_to_buttons():
 	while True:
+		print "listening to buttons..."
 		if r2d2.but_next.is_pressed():
 			try:
 				print("command: next track")
