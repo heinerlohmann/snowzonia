@@ -181,7 +181,7 @@ class Dance_Thread(Thread):
 		#r2d2.random_dance(5)
 
 
-dance = Dance_Thread()
+#dance = Dance_Thread()
 
 # exception handler
 
@@ -378,7 +378,7 @@ def dance():
 	player_lock.acquire()
 	player.play()
 	player_lock.release()
-	dance.start()
+	#dance.start()
 	return_to_wakeword_detection()
 
 
