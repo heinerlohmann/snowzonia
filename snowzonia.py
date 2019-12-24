@@ -24,6 +24,7 @@ def gcloud_query():
 	ignore_commands = True
 	play_sound('startrecording.wav', False)
 	os.system('rec -r 16000 -c 1 -b 16 -e signed-integer ' + os.path.join(PATH, "query.wav") + ' silence -l 1 0.1 1% 1 0.5 1% trim 0 5')
+	start_new_thread(r2d2.turn_head_randomly, (3, 0.3))
 	play_sound('searching.wav', True)
 	text = google_speech.send_gcloud_query(os.path.join(PATH, "query.wav"))
 	return text
@@ -105,7 +106,7 @@ def command_timeout_or_playback_started_from_elsewhere(player_lock):
 	if playing == False:
 	    print("command timeout -> going back to wakeword detection")
 	else:
-            print("playback started -> going back to wakeword detection")
+    	print("playback started -> going back to wakeword detection")
 
 player_lock = Lock()
 command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
@@ -123,24 +124,42 @@ player = snowzonia_player.Player()
 
 # initialize r2d2
 r2d2 = R2D2()
-
-class Button_Listener(Thread):
+class Button_Listener_Thread(Thread):
 	def run(self):
 		while True:
 			print "listening to buttons..."
 			if r2d2.but_next.is_pressed():
-				try:
-					print("command: next track")
-					play_sound('next.wav', False)
-					player_lock.acquire()
-					player.next()
-					player_lock.release()
-				except:
-					handle_exception()
+				print("button detected: next track")
+				play_sound('next.wav', False)
+				player_lock.acquire()
+				player.next()
+				player_lock.release()
+			if r2d2.but_vol_up.is_pressed():
+				print("button detected: volume up")
+				player_lock.acquire()
+				player.volume_up()
+				player_lock.release()
+			if r2d2.but_vol_down.is_pressed():
+				print("button detected: volume down")
+				player_lock.acquire()
+				player.volume_down()
+				player_lock.release()
+			if r2d2.but_bluetooth.is_pressed():
+				print "button detected: start bluetooth pairing"
+				play_sound('startbluetoothpairing.wav', True)
+				player_lock.acquire()
+				player.start_bluetooth_pairing()
+				player_lock.release()
+			if r2d2.but_wifi.is_pressed():
+		        print "button detected: search for wifi"
+				play_sound('startbluetoothpairing.wav', True)
 			sleep(0.5)
-
-button_listener = Button_Listener()
+button_listener = Button_Listener_Thread()
 button_listener.start()
+class Dance_Thread(Thread):
+	while True:
+		r2d2.random_dance()
+dance = Dance_Thread()
 
 # exception handler
 def handle_exception():
@@ -171,6 +190,10 @@ def wakeword_1():
 		player_lock.acquire()
 		player.pause()
 		player_lock.release()
+		r2d2.led_blue1.on()
+		if dance.is_alive():
+			dance.terminate()
+		r2d2.default_posture()
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_1()
@@ -185,6 +208,10 @@ def wakeword_2():
 		player_lock.acquire()
 		player.pause()
 		player_lock.release()
+		r2d2.led_blue1.on()
+		if dance.is_alive():
+			dance.terminate()
+		r2d2.default_posture()
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_2()
@@ -199,16 +226,17 @@ def next_from_wakeword_detection():
 		player.next()
 		player_lock.release()
 	except:
-                handle_exception()
+		handle_exception()
 
 if multiple_users:
-        wakewords = [wakeword_1, wakeword_2, next_from_wakeword_detection, next_from_wakeword_detection]
+	wakewords = [wakeword_1, wakeword_2, next_from_wakeword_detection, next_from_wakeword_detection]
 else:
-        wakewords = [wakeword_1, next_from_wakeword_detection]
+	wakewords = [wakeword_1, next_from_wakeword_detection]
 
 def continuepb():
 	print("command: continue playback")
-	start_new_thread(r2d2.turn_head_randomly, (2, 0.3))
+	r2d2.led_blue2.on()
+	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 	play_sound('continue.wav', False)
 	player_lock.acquire()
 	player.play()
@@ -217,6 +245,8 @@ def continuepb():
 
 def next():
     print("command: next track")
+	r2d2.led_blue2.on()
+	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
     play_sound('next.wav', False)
     player_lock.acquire()
     player.next()
@@ -225,6 +255,8 @@ def next():
 
 def previous():
     print("command: previous track")
+	r2d2.led_blue2.on()
+	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
     play_sound('previous.wav', False)
     player_lock.acquire()
     player.previous()
@@ -233,6 +265,7 @@ def previous():
 
 def play_track():
 	print("command: play track x")
+	r2d2.led_blue2.on()
 	name = gcloud_query()
 	print("gspeech understood: " + name)
 	player_lock.acquire()
@@ -242,6 +275,7 @@ def play_track():
 
 def play_artist():
     print("command: play artist x")
+	r2d2.led_blue2.on()
     name = gcloud_query()
     print("gspeech understood: " + name)
     player_lock.acquire()
@@ -251,6 +285,7 @@ def play_artist():
 
 def play_album():
     print("command: play album x")
+	r2d2.led_blue2.on()
     name = gcloud_query()
     print("gspeech understood: " + name)
     player_lock.acquire()
@@ -260,6 +295,7 @@ def play_album():
 
 def play_playlist():
 	print("command: play playlist x")
+	r2d2.led_blue2.on()
 	name = gcloud_query()
 	print("gspeech understood: " + name)
 	player_lock.acquire()
@@ -269,22 +305,40 @@ def play_playlist():
 
 def volume_up():
 	print("command: volume up")
+	r2d2.led_blue2.on()
 	player_lock.acquire()
 	player.volume_up()
 	player_lock.release()
 	play_sound('volumeup.wav', False)
+	r2d2.led_blue2.off()
 
 def volume_down():
 	print("command: volume down")
+	r2d2.led_blue2.on()
 	player_lock.acquire()
 	player.volume_down()
 	player_lock.release()
 	play_sound('volumedown.wav', False)
+	r2d2.led_blue2.off()
 
 def enter_sleep_mode():
 	print("command: enter sleep mode")
+	r2d2.led_blue2.on()
+	start_new_thread(r2d2.sad_posture, (0.5))
 	play_sound('entersleepmode.wav', True)
+	r2d2.led_blue1.off()
+	r2d2.led_blue2.off()
 	start_sleep_mode_detection()
+
+def dance():
+	print("command: dance")
+	r2d2.led_blue2.on()
+	play_sound('continue.wav', False)
+	player_lock.acquire()
+	player.play()
+	player_lock.release()
+	dance.start()
+	return_to_wakeword_detection()
 
 commands = [
 	continuepb,
@@ -308,6 +362,7 @@ def leave_sleep_mode_1():
 	was_sleeping = True
 	sleep_mode = False
 	user = 1
+	start_new_thread(r2d2.default_posture())
 	play_sound('leavesleepmode.wav', True)
 	print("waking up - starting command detection for user 1")
 
@@ -318,6 +373,7 @@ def leave_sleep_mode_2():
     was_sleeping = True
     sleep_mode = False
     user = 2
+	start_new_thread(r2d2.default_posture())
     play_sound('leavesleepmode.wav', True)
     print("waking up- starting command detection for user 2")
 
@@ -331,12 +387,14 @@ def play_sound(file, as_process):
     try:
         if user == 1:
             if as_process:
-                Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
+				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
+                #Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
             else:
                 os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
         elif user == 2:
             if as_process:
-                Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
+				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
+                #Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
             else:
                 os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
     except:
@@ -424,6 +482,8 @@ def return_to_wakeword_detection():
 	player_lock.release()
 	wakeword_detector.ring_buffer.get() #clear audio buffer
 	print("returning to wakeword detection")
+	r2d2.led_blue1.off()
+	r2d2.led_blue2.off()
 
 commands_detector_1 = snowboydecoder.HotwordDetector(command_models_1, sensitivity=0.4, audio_gain=1)
 

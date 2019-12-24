@@ -87,9 +87,9 @@ class R2D2():
             self.motor_core.stop()
 
     def default_posture(self, speed):
-	if self.get_posture() > 6:
+        if self.get_posture() > 6:
             self.turn_core_to(5, speed)
-	elif self.get_posture() < 5:
+        elif self.get_posture() < 5:
             self.turn_core_to(6, speed)
 
     def force_default_posture(self, speed):
@@ -121,7 +121,7 @@ class R2D2():
 
     def sad_posture(self, speed):
         self.turn_core_to(0, speed)
-        self.turn_core_to(2, speed)
+        self.turn_core_to(2, speed/2)
 
     def forward(self, duration, speed):
         self.motor_left.forward(speed)
@@ -151,11 +151,12 @@ class R2D2():
         self.motor_left.stop()
         self.motor_right.stop()
 
-    def random_dance(self):
-        #dance_index = randint(0, 3)
-        # still to write
-        self.dance_upright(5)
-        self.default_posture(0.5)
+    def random_dance(self, duration):
+        dance_index = randint(0, 1)
+        if dance_index == 0:
+            self.dance_upright(duration)
+        elif dance_index == 1:
+            self.dance_swingbackandforth(duration)
 
     def dance_upright(self, duration):
         self.turn_core_to(3, 1)
@@ -165,3 +166,9 @@ class R2D2():
             self.turn_right(0.2, 0.3)
             self.turn_left(0.2, 0.3)
         self.turn_right(0.1, 0.3)
+
+    def dance_swingbackandforth(self, duration):
+        timeout = time() + duration
+        while time() < timeout:
+            self.turn_core_to(2)
+            self.turn_core_to(4)
