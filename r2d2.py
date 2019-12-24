@@ -170,5 +170,5 @@ class R2D2():
     def dance_swingbackandforth(self, duration):
         timeout = time() + duration
         while time() < timeout:
-            self.turn_core_to(2)
-            self.turn_core_to(4)
+            self.turn_core_to(2, 0.7)
+            self.turn_core_to(4, 0.7)
