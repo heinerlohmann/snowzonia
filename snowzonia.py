@@ -248,10 +248,10 @@ def next():
 	r2d2.led_blue2.on()
 	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 	play_sound('next.wav', False)
-    player_lock.acquire()
-    player.next()
-    player_lock.release()
-    return_to_wakeword_detection()
+	player_lock.acquire()
+	player.next()
+	player_lock.release()
+	return_to_wakeword_detection()
 
 def previous():
     print("command: previous track")
