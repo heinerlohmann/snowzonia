@@ -144,29 +144,29 @@ class Button_Listener_Thread(Thread):
 	def run(self):
 		while True:
 			print "listening to buttons..."
-			if r2d2.but_next.is_pressed():
+			if r2d2.but_next.is_pressed:
 				print("button detected: next track")
 				play_sound('next.wav', False)
 				player_lock.acquire()
 				player.next()
 				player_lock.release()
-			if r2d2.but_vol_up.is_pressed():
+			if r2d2.but_vol_up.is_pressed:
 				print("button detected: volume up")
 				player_lock.acquire()
 				player.volume_up()
 				player_lock.release()
-			if r2d2.but_vol_down.is_pressed():
+			if r2d2.but_vol_down.is_pressed:
 				print("button detected: volume down")
 				player_lock.acquire()
 				player.volume_down()
 				player_lock.release()
-			if r2d2.but_bluetooth.is_pressed():
+			if r2d2.but_bluetooth.is_pressed:
 				print "button detected: start bluetooth pairing"
 				play_sound('startbluetoothpairing.wav', True)
 				player_lock.acquire()
 				player.start_bluetooth_pairing()
 				player_lock.release()
-			if r2d2.but_wifi.is_pressed():
+			if r2d2.but_wifi.is_pressed:
 				print "button detected: search for wifi"
 				play_sound('startbluetoothpairing.wav', True)
 			sleep(0.5)
