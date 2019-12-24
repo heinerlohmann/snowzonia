@@ -364,7 +364,7 @@ def volume_down():
 def enter_sleep_mode():
 	print("command: enter sleep mode")
 	r2d2.led_blue2.on()
-	start_new_thread(r2d2.sad_posture, (0.5))
+	start_new_thread(r2d2.sad_posture(0.5))
 	play_sound('entersleepmode.wav', True)
 	r2d2.led_blue1.off()
 	r2d2.led_blue2.off()
