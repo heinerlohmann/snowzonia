@@ -287,14 +287,14 @@ def next():
 
 
 def previous():
-    print("command: previous track")
+	print("command: previous track")
 	r2d2.led_blue2.on()
 	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
-    play_sound('previous.wav', False)
-    player_lock.acquire()
-    player.previous()
-    player_lock.release()
-    return_to_wakeword_detection()
+	play_sound('previous.wav', False)
+	player_lock.acquire()
+	player.previous()
+	player_lock.release()
+	return_to_wakeword_detection()
 
 
 def play_track():
@@ -309,25 +309,25 @@ def play_track():
 
 
 def play_artist():
-    print("command: play artist x")
+	print("command: play artist x")
 	r2d2.led_blue2.on()
-    name = gcloud_query()
-    print("gspeech understood: " + name)
-    player_lock.acquire()
-    player.play_artist(name)
-    player_lock.release()
-    return_to_wakeword_detection()
+	name = gcloud_query()
+	print("gspeech understood: " + name)
+	player_lock.acquire()
+	player.play_artist(name)
+	player_lock.release()
+	return_to_wakeword_detection()
 
 
 def play_album():
-    print("command: play album x")
+	print("command: play album x")
 	r2d2.led_blue2.on()
-    name = gcloud_query()
-    print("gspeech understood: " + name)
-    player_lock.acquire()
-    player.play_album(name)
-    player_lock.release()
-    return_to_wakeword_detection()
+	name = gcloud_query()
+	print("gspeech understood: " + name)
+	player_lock.acquire()
+	player.play_album(name)
+	player_lock.release()
+	return_to_wakeword_detection()
 
 
 def play_playlist():
