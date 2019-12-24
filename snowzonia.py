@@ -106,7 +106,7 @@ def command_timeout_or_playback_started_from_elsewhere(player_lock):
 	if playing == False:
 	    print("command timeout -> going back to wakeword detection")
 	else:
-    	print("playback started -> going back to wakeword detection")
+		print("playback started -> going back to wakeword detection")
 
 player_lock = Lock()
 command_timer = Process(target=command_timeout_or_playback_started_from_elsewhere, args=(player_lock,))
