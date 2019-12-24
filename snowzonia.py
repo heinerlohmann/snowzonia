@@ -219,7 +219,7 @@ def wakeword_1():
 		r2d2.led_blue1.on()
 		#if dance.is_alive():
 			#dance.terminate()
-		r2d2.default_posture()
+		r2d2.default_posture(0.3)
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_1()
@@ -238,7 +238,7 @@ def wakeword_2():
 		r2d2.led_blue1.on()
 		#if dance.is_alive():
 			#dance.terminate()
-		r2d2.default_posture()
+		r2d2.default_posture(0.3)
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
 		start_command_detection_2()
@@ -405,7 +405,7 @@ def leave_sleep_mode_1():
 	was_sleeping = True
 	sleep_mode = False
 	user = 1
-	start_new_thread(r2d2.default_posture())
+	start_new_thread(r2d2.default_posture(0.3))
 	play_sound('leavesleepmode.wav', True)
 	print("waking up - starting command detection for user 1")
 
@@ -417,7 +417,7 @@ def leave_sleep_mode_2():
 	was_sleeping = True
 	sleep_mode = False
 	user = 2
-	start_new_thread(r2d2.default_posture())
+	start_new_thread(r2d2.default_posture(0.3))
 	play_sound('leavesleepmode.wav', True)
 	print("waking up- starting command detection for user 2")
 
