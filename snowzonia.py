@@ -411,12 +411,12 @@ def leave_sleep_mode_1():
 
 
 def leave_sleep_mode_2():
-    global was_sleeping
-    global sleep_mode
-    global user
-    was_sleeping = True
-    sleep_mode = False
-    user = 2
+	global was_sleeping
+	global sleep_mode
+	global user
+	was_sleeping = True
+	sleep_mode = False
+	user = 2
 	start_new_thread(r2d2.default_posture())
 	play_sound('leavesleepmode.wav', True)
 	print("waking up- starting command detection for user 2")
