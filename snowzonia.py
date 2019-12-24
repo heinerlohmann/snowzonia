@@ -434,13 +434,13 @@ def play_sound(file, as_process):
 	try:
 		if user == 1:
 			if as_process:
-				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
+				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file)))
                 # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
 			else:
 				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
 		elif user == 2:
 			if as_process:
-				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
+				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file)))
                 # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
 			else:
 				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
