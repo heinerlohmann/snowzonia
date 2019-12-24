@@ -244,10 +244,10 @@ def continuepb():
 	return_to_wakeword_detection()
 
 def next():
-    print("command: next track")
+	print("command: next track")
 	r2d2.led_blue2.on()
 	start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
-    play_sound('next.wav', False)
+	play_sound('next.wav', False)
     player_lock.acquire()
     player.next()
     player_lock.release()
