@@ -176,8 +176,8 @@ button_listener = Button_Listener_Thread()
 button_listener.start()
 
 
-class Dance_Thread(Thread):
-	while True:
+#class Dance_Thread(Thread):
+	#while True:
 		#r2d2.random_dance(5)
 
 
