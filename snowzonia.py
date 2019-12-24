@@ -445,7 +445,7 @@ def play_sound(file, as_process):
 			else:
 				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
 	except:
-    	e=sys.exc_info()
+		e=sys.exc_info()
 		print(e[0])
 		print(e[1])
 		traceback.print_tb(e[2])
