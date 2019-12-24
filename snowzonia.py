@@ -169,7 +169,7 @@ class Button_Listener_Thread(Thread):
 			if r2d2.but_wifi.is_pressed:
 				print "button detected: search for wifi"
 				play_sound('startbluetoothpairing.wav', True)
-			sleep(0.5)
+			time.sleep(0.5)
 
 
 button_listener = Button_Listener_Thread()
