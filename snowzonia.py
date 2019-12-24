@@ -173,7 +173,7 @@ class Button_Listener_Thread(Thread):
 
 
 button_listener = Button_Listener_Thread()
-button_listener.start()
+#button_listener.start()
 
 
 #class Dance_Thread(Thread):
@@ -217,8 +217,8 @@ def wakeword_1():
 		player.pause()
 		player_lock.release()
 		r2d2.led_blue1.on()
-		if dance.is_alive():
-			dance.terminate()
+		#if dance.is_alive():
+			#dance.terminate()
 		r2d2.default_posture()
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
@@ -236,8 +236,8 @@ def wakeword_2():
 		player.pause()
 		player_lock.release()
 		r2d2.led_blue1.on()
-		if dance.is_alive():
-			dance.terminate()
+		#if dance.is_alive():
+			#dance.terminate()
 		r2d2.default_posture()
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
