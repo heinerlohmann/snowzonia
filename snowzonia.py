@@ -431,24 +431,24 @@ else:
 
 
 def play_sound(file, as_process):
-    try:
-        if user == 1:
-            if as_process:
+	try:
+		if user == 1:
+			if as_process:
 				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
                 # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
-            else:
-                os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
-        elif user == 2:
-            if as_process:
+			else:
+				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
+		elif user == 2:
+			if as_process:
 				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
                 # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
-            else:
-                os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
-    except:
-        e=sys.exc_info()
-        print(e[0])
-        print(e[1])
-        traceback.print_tb(e[2])
+			else:
+				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
+	except:
+    	e=sys.exc_info()
+		print(e[0])
+		print(e[1])
+		traceback.print_tb(e[2])
 
 
 # interrupt callbacks of detectors
