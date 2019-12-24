@@ -418,8 +418,8 @@ def leave_sleep_mode_2():
     sleep_mode = False
     user = 2
 	start_new_thread(r2d2.default_posture())
-    play_sound('leavesleepmode.wav', True)
-    print("waking up- starting command detection for user 2")
+	play_sound('leavesleepmode.wav', True)
+	print("waking up- starting command detection for user 2")
 
 
 if multiple_users:
