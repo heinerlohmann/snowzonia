@@ -151,6 +151,27 @@ class R2D2():
         self.motor_left.stop()
         self.motor_right.stop()
 
+    dancing = False
+
+    class Dance_Thread(Thread):
+        def run(self):
+            while True:
+                global dancing
+                if not dancing:
+                    break
+                else:
+                    self.random_dance(5)
+
+    def start_dancing(self):
+        global dancing
+        dancing = True
+        dance = Dance_Thread()
+        dance.start()
+
+    def stop_dancing(self):
+        global dancing
+        dancing = False
+
     def random_dance(self, duration):
         dance_index = randint(0, 1)
         if dance_index == 0:

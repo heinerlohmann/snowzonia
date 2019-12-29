@@ -171,21 +171,11 @@ class Button_Listener_Thread(Thread):
 				play_sound('startbluetoothpairing.wav', True)
 			time.sleep(0.5)
 
-
 button_listener = Button_Listener_Thread()
 button_listener.start()
 
 
-#class Dance_Thread(Thread):
-	#while True:
-		#r2d2.random_dance(5)
-
-
-#dance = Dance_Thread()
-
 # exception handler
-
-
 def handle_exception():
 	global ignore_commands
 	e = sys.exc_info()
@@ -207,7 +197,6 @@ def handle_exception():
 # callbacks
 user = 1
 
-
 def wakeword_1():
 	global user
 	global ignore_commands
@@ -217,8 +206,7 @@ def wakeword_1():
 		player.pause()
 		player_lock.release()
 		r2d2.led_blue1.on()
-		#if dance.is_alive():
-			#dance.terminate()
+		#r2.stop_dancing()
 		r2d2.default_posture(0.3)
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
@@ -236,8 +224,7 @@ def wakeword_2():
 		player.pause()
 		player_lock.release()
 		r2d2.led_blue1.on()
-		#if dance.is_alive():
-			#dance.terminate()
+		#r2.stop_dancing()
 		r2d2.default_posture(0.3)
 		start_new_thread(r2d2.turn_head_randomly, (1, 0.3))
 		play_sound('wakeword.wav', True)
@@ -378,7 +365,7 @@ def dance():
 	player_lock.acquire()
 	player.play()
 	player_lock.release()
-	#dance.start()
+	#r2.start_dancing()
 	return_to_wakeword_detection()
 
 
