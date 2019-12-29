@@ -173,7 +173,7 @@ class Button_Listener_Thread(Thread):
 
 
 button_listener = Button_Listener_Thread()
-#button_listener.start()
+button_listener.start()
 
 
 #class Dance_Thread(Thread):
