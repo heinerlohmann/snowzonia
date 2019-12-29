@@ -428,22 +428,20 @@ else:
 	leave_sleep_mode = leave_sleep_mode_1
 
 # change to threading, play at 100%?
-
-
-def play_sound(file, as_process):
+def play_sound(file, as_thread):
 	try:
 		if user == 1:
-			if as_process:
-				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file)))
-                # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))).start()
+			command = 'aplay -q ' + os.path.join(SOUNDS_PATH_1, file)
+			if as_thread:
+				start_new_thread(os.system, (command,))
 			else:
-				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_1, file))
+				os.system(command)
 		elif user == 2:
-			if as_process:
-				start_new_thread(os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file)))
-                # Process(target=os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))).start()
+			command = 'aplay -q ' + os.path.join(SOUNDS_PATH_2, file)
+			if as_thread:
+				start_new_thread(os.system, (command,))
 			else:
-				os.system('aplay -q ' + os.path.join(SOUNDS_PATH_2, file))
+				os.system(command)
 	except:
 		e=sys.exc_info()
 		print(e[0])
